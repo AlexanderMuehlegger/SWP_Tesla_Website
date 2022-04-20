@@ -1,11 +1,9 @@
 ﻿using System;
 using MySql.Data.MySqlClient;
-using SWP_Tesla_Website.Models.DB.scripts;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Data.Common;
 using System.Threading.Tasks;
+
 namespace SWP_Tesla_Website.Models.DB {
     public class RepositoryCarDB : IRepositoryCar {
 
