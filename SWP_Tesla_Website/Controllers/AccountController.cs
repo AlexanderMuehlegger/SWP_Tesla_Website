@@ -22,20 +22,33 @@ namespace SWP_Tesla_Website.Controllers {
 
             Access access = SWP_Tesla_Website.Models.User.getObject(user_string).access;
 
-            if (access == Access.DEV_ADMIN || access == Access.ADMIN || access == Access.DEV)
+            if (access.hasAccess(Access.ADMIN))
                 return RedirectToAction("AdminPanel");
 
             return View();
         }
 
+        [HttpGet]
         public IActionResult AdminPanel() {
+            string user_string = HttpContext.Session.GetString("user");
+            if (user_string == null || user_string.Length == 0)
+                return RedirectToAction("Login");
+
+            Access access = SWP_Tesla_Website.Models.User.getObject(user_string).access;
+
+            if(!access.hasAccess(Access.ADMIN))
+                return RedirectToAction("index");
+            
             return View();
         }
 
         [HttpGet]
         public IActionResult Login() {
+
+            if (HttpContext.Session.GetString("LoginState") == null)
+                HttpContext.Session.SetString("LoginState", "login");
+
             string user_string = HttpContext.Session.GetString("user");
-            HttpContext.Session.Remove("error-login");
 
             if(user_string == null || user_string.Length == 0)
                 return View();
@@ -46,7 +59,10 @@ namespace SWP_Tesla_Website.Controllers {
 
         [HttpPost]
         public async Task<IActionResult> Login(User userData) {
-            if(userData == null) 
+            HttpContext.Session.SetString("LoginState", "login");
+            HttpContext.Session.Remove("error-login");
+
+            if (userData == null) 
                 return View();
 
             ValidateLoginData(userData);
@@ -59,7 +75,7 @@ namespace SWP_Tesla_Website.Controllers {
 
                     if (validUser != null) {
                         HttpContext.Session.SetString("user", validUser.getJson());
-                        return RedirectToAction("index", "account");
+                        return RedirectToAction("index");
                     }
                     else {
                         userData.access = Access.UNAUTHORIZED;
@@ -68,7 +84,7 @@ namespace SWP_Tesla_Website.Controllers {
                         
 
                 }catch (Exception ex) {
-                    HttpContext.Session.SetString("error-login", ex.Message /*"Something went wrong turing login!"*/);
+                    HttpContext.Session.SetString("error-login", "Something went wrong turing login!");
                     userData.access = Access.UNAUTHORIZED;
                     return View(userData);
                 }
@@ -82,31 +98,43 @@ namespace SWP_Tesla_Website.Controllers {
         }
 
         [HttpPost]
-        public async Task<IActionResult> Logout() {
+        public IActionResult Logout() {
             string user_string = HttpContext.Session.GetString("user");
             if (user_string == null)
-            return RedirectToAction("Login");
+                return RedirectToAction("Login");
+
+            HttpContext.Session.Remove("user");
+
+            return RedirectToAction("login");
+
         }
 
         [HttpGet]
         public IActionResult Register() {
-
-            HttpContext.Session.SetString("mode", "login");
+            HttpContext.Session.SetString("mode", "register");
             return View("Login");
         }
+
         [HttpPost]
         public async Task<IActionResult> Register(User userData) {
-            if(userData == null) {
-                return RedirectToAction("Register");                
+            HttpContext.Session.SetString("LoginState", "register");
+            HttpContext.Session.Remove("error-register");
+
+            if (userData == null) {
+                return RedirectToAction("Login");                
             }
-            ValidateRegisterData(userData);
+            if (!ValidateRegisterData(userData)) {
+                HttpContext.Session.SetString("register-error", "Something went wrong!");
+                return View("Login");
+            }
 
             if (ModelState.IsValid) {
                 try {
                     await _rep.ConnectAsync();
-                    if (await _rep.RegisterAsync(userData))
+                    if (await _rep.RegisterAsync(userData)) {
+                        HttpContext.Session.SetString("user", userData.getJson());
                         return RedirectToAction("index");
-                    else 
+                    }else 
                         HttpContext.Session.SetString("error-register", "Account existiert bereits!");
                     
                 }catch (Exception ex) {
@@ -114,15 +142,15 @@ namespace SWP_Tesla_Website.Controllers {
                 }finally {
                     await _rep.DisconnectAsync();
                 }
-                return View(userData);
+                return View("Login", userData);
             }
 
             return View("Login", userData);
         }
 
-        private void ValidateRegisterData(User user) {
+        private bool ValidateRegisterData(User user) {
             if (user == null)
-                return;
+                return false;
 
             if ((user.Username == null) || (user.Username.Trim().Length < 4))
                 ModelState.AddModelError("Username", "Der Username muss mindestens 4 Zeichen lang sein!");
@@ -132,17 +160,21 @@ namespace SWP_Tesla_Website.Controllers {
 
             if ((user.Password == null) || (user.Password.Length < 6))
                 ModelState.AddModelError("Password", "Das Passwort muss mindestens 6 Zeichen lang sein!");
+
+            return true;
         }
 
-        private void ValidateLoginData(User user) {
+        private bool ValidateLoginData(User user) {
             if (user == null)
-                return;
+                return false;
 
             if ((user.Username == null) || (user.Username.Trim().Length < 4))
                 ModelState.AddModelError("Username", "Der Username muss mindestens 4 Zeichen lang sein!");
 
             if ((user.Password == null) || (user.Password.Length < 6))
                 ModelState.AddModelError("Password", "Das Passwort muss mindestens 6 Zeichen lang sein!");
+
+            return true;
         }
     }
 

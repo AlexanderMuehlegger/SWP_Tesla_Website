@@ -67,7 +67,7 @@ namespace SWP_Tesla_Website.Models.DB {
 
             if(user.Username == null && user.Email != null && user.Password != null) {
                 DbCommand cmd = this._conn.CreateCommand();
-                cmd.CommandText = "SELECT * FROM user where email=@email and password=@password";
+                cmd.CommandText = "SELECT * FROM user where email=@email and sha2(password=@password, 256)";
 
                 DbParameter emailPar = cmd.CreateParameter();
                 emailPar.ParameterName = "email";
@@ -86,7 +86,7 @@ namespace SWP_Tesla_Website.Models.DB {
                     
             } else if(user.Username != null && user.Password != null){
                 DbCommand cmd = this._conn.CreateCommand();
-                cmd.CommandText = "SELECT * FROM user WHERE username=@username and password=@password";
+                cmd.CommandText = "SELECT * FROM user WHERE username=@username and sha2(password=@password, 256)";
 
                 DbParameter userPara = cmd.CreateParameter();
                 userPara.ParameterName = "username";
@@ -135,7 +135,7 @@ namespace SWP_Tesla_Website.Models.DB {
                             return false;
                     }
 
-                    cmd.CommandText = "INSERT INTO user VALUES(null, email=@email, username=@username, password=@password, access=DEFAULT)";
+                    cmd.CommandText = "INSERT INTO user VALUES(null, @email, @username, sha2(@password, 256), DEFAULT)";
 
 
                     return await cmd.ExecuteNonQueryAsync() > 0;

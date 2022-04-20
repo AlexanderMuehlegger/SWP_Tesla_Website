@@ -24,8 +24,8 @@ create table cars (
     PRIMARY KEY (car_id)
 );
 
-INSERT INTO user VALUES(null, "amuehlegger@tsn.at", "Alexander", "12345678", 4);
-INSERT INTO user VALUES(null, "josef@tsn.at", "Josef", "12345678", DEFAULT);
+INSERT INTO user VALUES(null, "amuehlegger@tsn.at", "alexander", sha2('12345678', 256), 4);
+INSERT INTO user VALUES(null, "josef@tsn.at", "josef", sha2('12345678', 256), DEFAULT);
 
 INSERT INTO cars VALUES(null, "Model S | Standard Range", 541, 3.2, 100000.0, 652, 250);
 INSERT INTO cars VALUES(null, "Model S | Plaid", 1020, 2.1, 125000.0, 637, 322);

@@ -1,1 +1,108 @@
-﻿<h1>WELCOME TO THE ADMIN PANEL</h1>
+﻿<link rel="stylesheet" href="~/css/adminpanel.css">
+
+<div class="wrapper">
+
+    <form class="logout-form" asp-action="logout" asp-controller="account" method="post">
+        <button class="logout-btn"></button>
+    </form>
+
+    
+    <div class="select-box">
+        <div class="selected">
+            Bitte Typ Auswählen
+        </div>
+        <div class="option-container">
+            <div class="option">
+                <input class="radio" type="radio" name="type" id="Standard">
+                <label for="Standard">Standard Range</label>
+            </div>
+            <div class="option">
+                <input class="radio" type="radio" name="type" id="Long">
+                <label for="Long">Long Range</label>
+            </div>
+            <div class="option">
+                <input class="radio" type="radio" name="type" id="Performance">
+                <label for="Performance">Performance</label>
+            </div>
+            <div class="option">
+                <input class="radio" type="radio" name="type" id="Plaid">
+                <label for="Plaid">Plaid</label>
+            </div>
+        </div>
+    </div>
+
+    <div class="card-container">
+        <div class="card">
+            <img class="card-image" src="../multimedia/pictures/TeslaModel3-Panel.jpg">
+            <h1 class="model">Model 3</h1>
+
+            <div class="props">
+                <span class="text-prop">Reichweite:</span>
+                <span class="prop">652 km</span>
+                
+                <span class="text-prop">Geschwindigkeit:</span>
+                <span class="prop">250 km/h</span>
+
+                <span class="text-prop">0-100 km/h:</span>
+                <span class="prop">6.1 Sek.</span>
+
+                <span class="text-prop">PS:</span>
+                <span class="prop">325</span>
+            </div>
+        </div>
+        <div class="card">
+            <img class="card-image" src="../multimedia/pictures/ModelY-Panel.png">
+            <h1 class="model">Model Y</h1>
+
+            <div class="props">
+                <span class="text-prop">Reichweite:</span>
+                <span class="prop">652 km</span>
+                
+                <span class="text-prop">Geschwindigkeit:</span>
+                <span class="prop">250 km/h</span>
+
+                <span class="text-prop">0-100 km/h:</span>
+                <span class="prop">6.1 Sek.</span>
+
+                <span class="text-prop">PS:</span>
+                <span class="prop">325</span>
+            </div>
+        </div>
+        <div class="card">
+            <img class="card-image" src="../multimedia/pictures/ModelX-Panel.jpg">
+            <h1 class="model">Model X</h1>
+
+            <div class="props">
+                <span class="text-prop">Reichweite:</span>
+                <span class="prop">652 km</span>
+                
+                <span class="text-prop">Geschwindigkeit:</span>
+                <span class="prop">250 km/h</span>
+
+                <span class="text-prop">0-100 km/h:</span>
+                <span class="prop">6.1 Sek.</span>
+
+                <span class="text-prop">PS:</span>
+                <span class="prop">325</span>
+            </div>
+        </div>
+        <div class="card">
+            <img class="card-image" src="../multimedia/pictures/ModelS-Panel.jpg">
+            <h1 class="model">Model S</h1>
+            <div class="props">
+                <span class="text-prop">Reichweite:</span>
+                <span class="prop">652 km</span>
+                
+                <span class="text-prop">Geschwindigkeit:</span>
+                <span class="prop">250 km/h</span>
+
+                <span class="text-prop">0-100 km/h:</span>
+                <span class="prop">6.1 Sek.</span>
+
+                <span class="text-prop">PS:</span>
+                <span class="prop">325</span>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/js/AdminPanel.js"></script>

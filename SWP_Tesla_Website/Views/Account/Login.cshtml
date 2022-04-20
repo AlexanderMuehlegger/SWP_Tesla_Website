@@ -3,48 +3,66 @@
 @using Microsoft.AspNetCore.Session
 <link rel="stylesheet" href="~/css/login.css" />
 <script src="~/js/site.js"></script>
+@{
+    string state = Context.Session.GetString("LoginState");
+}
 <script>
     const header = document.querySelector(".primary-header");
-    header.classList.add("login");
-    header.setAttribute("currentSiteState", "login");
+    header.classList.add("@state");
+    header.setAttribute("currentSiteState", "@state");
 </script>
 
 <div class="login-page-container">
 
-    <div class="signUp-container sectionPart" currentSiteState="login">
+    <div class="signUp-container sectionPart" currentSiteState="@state">
         <p>Sign Up</p>
         <form asp-controller="Account" asp-action="Register" method="post">
             <input type="text" asp-for="Username" placeholder="Username" />
-            <span class="error-message" asp-validation-for="Username"></span>
+            <span class="error-message register" asp-validation-for="Username"></span>
             <input type="email" asp-for="Email" placeholder="Email" />
-            <span class="error-message" asp-validation-for="Email"></span>
+            <span class="error-message register" asp-validation-for="Email"></span>
             <input type="password" asp-for="Password" placeholder="Password" />
-            <span class="error-message" asp-validation-for="Password"></span>
+            <span class="error-message register" asp-validation-for="Password"></span>
             <input type="submit" placeholder="Sign Up" />
             @if (@Context.Session.GetString("error-register") != null)
             {
-             <span class="error-message">@Context.Session.GetString("error-register")</span>   
+             <span class="error-message register">@Context.Session.GetString("error-register")</span>   
             }
         </form>
         <a class="change-anchor" onclick="changeToLogin()">Login</a>
     </div>
-    <div class="signIn-container sectionPart" currentSiteState="login">
+    <div class="signIn-container sectionPart" currentSiteState="@state">
         <p>Sign In</p>
         <form id="signIn-form" asp-controller="Account" asp-action="Login" method="post" runat="server">
             <input type="text" asp-for="Username" placeholder="Username/Email" />
-            <span class="error-message" asp-validation-for="Username"></span>
+            <span class="error-message login" asp-validation-for="Username"></span>
             <input type="password" asp-for="Password" placeholder="Password" />
-            <span class="error-message" asp-validation-for="Password"></span>
+            <span class="error-message login" asp-validation-for="Password"></span>
             <input type="submit" placeholder="Sign In" />
             @if (@Context.Session.GetString("error-login") != null)
            {
-               <span class="error-message">@Context.Session.GetString("error-login")</span>
+               <span class="error-message login">@Context.Session.GetString("error-login")</span>
            }
         </form>
         <a class="change-anchor" onclick="changeToRegister();">Register</a>
         
     </div>
 
-    <div class="background-circle" stateOfCircle="login" currentSiteState="login"></div>
+    <div class="background-circle" stateOfCircle="@state" currentSiteState="@state"></div>
+
+@if (Context.Session.GetString("LoginState") == "register")
+    {
+        <style>
+            .error-message.login {
+                display: none;
+            }
+        </style>
+    } else {
+        <style>
+            .error-message.register {
+                display: none;
+            }
+        </style>
+    }
 
 </div>

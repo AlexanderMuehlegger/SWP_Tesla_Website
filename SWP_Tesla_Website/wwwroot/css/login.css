@@ -25,9 +25,12 @@
     cursor: pointer;
 }
 
-.primary-sidebar {
+.primary-sidebar,
+.primary-menu,
+.secondary-menu{
     display: none;
 }
+
 
 .signIn-container > form > input, .signUp-container > form > input {
     position: relative;
