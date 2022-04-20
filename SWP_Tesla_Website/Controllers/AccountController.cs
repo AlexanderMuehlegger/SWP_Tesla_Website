@@ -85,7 +85,7 @@ namespace SWP_Tesla_Website.Controllers {
         public async Task<IActionResult> Logout() {
             string user_string = HttpContext.Session.GetString("user");
             if (user_string == null)
-            return RedirectToAction("Login");
+                return RedirectToAction("Login");
         }
 
         [HttpGet]
