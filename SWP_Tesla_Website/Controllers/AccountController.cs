@@ -102,11 +102,14 @@ namespace SWP_Tesla_Website.Controllers {
             string user_string = HttpContext.Session.GetString("user");
             if (user_string == null)
                 return RedirectToAction("Login");
+<<<<<<< HEAD
 
             HttpContext.Session.Remove("user");
 
             return RedirectToAction("login");
 
+=======
+>>>>>>> 5dcdc6981f86018bc6c520d01bdf86a542e86372
         }
 
         [HttpGet]
