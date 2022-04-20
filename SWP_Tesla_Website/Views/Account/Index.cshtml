@@ -1,0 +1,32 @@
+﻿@using Microsoft.AspNetCore.Http;
+@using Newtonsoft.Json
+@model string
+
+<link rel="stylesheet" href="~/css/user.css">
+
+<div class="wrapper">
+
+    <h1 id="greet"> x</h1>
+    <p id="message1"></p>
+    <p id="whole_thing"></p>
+    <form asp-action="logout" asp-controller="account" method="post">
+        <button>Log Out</button>
+    </form>
+    <span>
+    </span>
+</div>
+
+
+<script>
+    var json = JSON.parse(@Html.Raw(Json.Serialize(Context.Session.GetString("user"))));
+    var greeting = document.getElementById("greet");
+    var message1 = document.getElementById("message1")
+    var whole = document.getElementById("whole_thing")
+    console.log(json)
+
+
+    greeting.innerText = `Welcome ${json._user.Username}`
+    message1.innerText = `Your Password is ${json._user.Password}`
+    whole.innerText = `The Data is: ${JSON.stringify(json._user)}`
+
+</script>
