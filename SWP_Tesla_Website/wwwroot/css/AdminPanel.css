@@ -3,9 +3,9 @@
 }
 
 .wrapper {
+    position: static;
     margin-top: 4rem;
-    padding: .5rem;
-    border: 1px solid black;
+    padding: .5rem;   
     height: calc(100vh - 4rem);
     display: flex;
     flex-direction: column;
@@ -65,12 +65,22 @@
     padding-bottom: 1rem;
     transform: scale(clamp(.75, .80, 1));
     margin-bottom: -25%;
+    display: flex;
+    flex-direction: column;
 }
 
 .card-image {
     width: 100%;
     object-fit:contain;
-    transform: scale(100%);
+    transform: scale(105%);
+}
+
+
+.card-wrapper {
+    width: 90%;
+    align-self: center;
+    overflow-y: scroll;
+    padding-block: 2rem;
 }
 
 .card-container {
@@ -79,7 +89,7 @@
     grid-template-columns: repeat(auto-fit, 350px);
     grid-template-rows: min-content;
     gap: 10px;
-    width: 90%; 
+    width: 100%;
     align-self: center;
     overflow-y: auto;
     overflow-x: hidden;
@@ -143,6 +153,10 @@
     display: block;
 }
 
+.option-container {
+    margin-top: 1rem;
+}
+
 .selected {
     box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.5);
     border-radius: 15px;
@@ -166,4 +180,8 @@
 
 .select-box label {
     cursor: pointer;
+}
+
+.option label {
+    margin: 0;
 }

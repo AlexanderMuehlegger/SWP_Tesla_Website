@@ -9,7 +9,7 @@ namespace SWP_Tesla_Website.Models {
     public class Car {
         public string Model { get; set; }
         public int Ps { get; set; }
-        public decimal Acceleration { get; set; }
+        public double Acceleration { get; set; }
         public decimal Price { get; set; }
         public int Max_range { get; set; }
         public int Max_speed { get; set; }

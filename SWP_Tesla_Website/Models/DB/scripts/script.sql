@@ -17,8 +17,8 @@ create table car (
     car_id int auto_increment,
     model varchar(50) not null,
     ps int not null,
-    acceleration decimal(2,2) not null,
-    price decimal(8,2) not null,
+    acceleration decimal(10,2) not null,
+    price decimal(15,2) not null,
     max_range int not null,
     max_speed int not null,
     PRIMARY KEY (car_id)

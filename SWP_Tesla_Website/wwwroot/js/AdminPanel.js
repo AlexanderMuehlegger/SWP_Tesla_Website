@@ -2,6 +2,7 @@
 const option_container = document.querySelector(".option-container");
 
 const option_list = document.querySelectorAll(".option")
+const cards = document.querySelectorAll(".card");
 
 selected_obj.addEventListener('click', () => {
     option_container.classList.toggle("active")
@@ -9,13 +10,20 @@ selected_obj.addEventListener('click', () => {
 
 option_list.forEach(i => {
     i.addEventListener('click', () => {
-        selected_obj.innerHTML = i.querySelector("label").innerHTML
+        var innerText = i.querySelector("label").innerHTML;
+        selected_obj.innerHTML = innerText
         option_container.classList.remove("active")
-    })
-    i.addEventListener('mouseenter', () => {
-        if(selected_obj.innerHTML === i.querySelector("label").innerHTML){
-            i.style.cursor = "not-allowed"
-            i.querySelector("label").style.cursor = "not-allowed"
-        }
+
+        cards.forEach(card => {
+            if(innerText == "No Filter"){
+                card.style.display = ''
+            }else {
+                if(!card.querySelector(".model.second").innerHTML.includes(innerText))
+                    card.style.display = 'none';
+                else
+                    card.style.display = ''
+            }
+        })
     })
 })
+

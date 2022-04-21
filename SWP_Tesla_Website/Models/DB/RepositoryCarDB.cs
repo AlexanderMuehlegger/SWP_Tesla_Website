@@ -38,7 +38,7 @@ namespace SWP_Tesla_Website.Models.DB {
                         cars.Add(new Car() {
                             Model = Convert.ToString(readerCar["Model"]),
                             Ps = Convert.ToInt32(readerCar["Ps"]),
-                            Acceleration = Convert.ToDecimal(readerCar["Acceleration"]),
+                            Acceleration = double.Parse(readerCar["acceleration"].ToString()),
                             Price = Convert.ToDecimal(readerCar["Price"]),
                             Max_range = Convert.ToInt32(readerCar["Max_range"]),
                             Max_speed = Convert.ToInt32(readerCar["Max_speed"])
@@ -54,7 +54,7 @@ namespace SWP_Tesla_Website.Models.DB {
         public async Task<Car> GetByIdAsync(int id) {
             if (this._conn?.State == System.Data.ConnectionState.Open) {
                 DbCommand cmdCar = this._conn.CreateCommand();
-                cmdCar.CommandText = "select * from car ´where car_id=@car_id";
+                cmdCar.CommandText = "select * from car where car_id=@car_id";
                 DbParameter dbParam = cmdCar.CreateParameter();
                 dbParam.ParameterName = "@car_id";
                 dbParam.Value = id;
@@ -180,7 +180,7 @@ namespace SWP_Tesla_Website.Models.DB {
             return new Car() {
                 Model = Convert.ToString(reader["Model"]),
                 Ps = Convert.ToInt32(reader["Ps"]),
-                Acceleration = Convert.ToDecimal(reader["Acceleration"]),
+                Acceleration = (double)Convert.ToDecimal(reader["Acceleration"]),
                 Price = Convert.ToDecimal(reader["Price"]),
                 Max_range = Convert.ToInt32(reader["Max_range"]),
                 Max_speed = Convert.ToInt32(reader["Max_speed"])

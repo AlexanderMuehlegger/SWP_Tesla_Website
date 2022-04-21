@@ -11,7 +11,7 @@
 
     <div class="select-box">
         <div class="selected">
-            Bitte Typ Auswählen
+            No Filter
         </div>
         <div class="option-container">
             <div class="option">
@@ -30,49 +30,55 @@
                 <input class="radio" type="radio" name="type" id="Plaid">
                 <label for="Plaid">Plaid</label>
             </div>
+            <div class="option">
+                <input class="radio" type="radio" name="type" id="No_Filter">
+                <label for="No_Filter">No Filter</label>
+            </div>
         </div>
     </div>
 
     @if(Model != null) {
-        <div class="card-container">
-        @foreach (Car car in Model)
-       {
-           @if (car.Model.Contains(""))
-          {
-            <div class="card">
-                @if (@car.Model.Contains("Model X"))
-               {
-                    <img class="card-image" src="../multimedia/pictures/ModelX-Panel.jpg">
-                }else if(@car.Model.Contains("Model Y")) {
-                            <img class="card-image" src="../multimedia/pictures/ModelY-Panel.png">
-                }else if(@car.Model.Contains("Model 3")) {
-                    <img class="card-image" src="../multimedia/pictures/TeslaModel3-Panel.jpg">
-                }else if(@car.Model.Contains("Model S")) {
-                    <img class="card-image" src="../multimedia/pictures/ModelS-Panel.jpg">
-                }
-                        <h1 class="model first">@car.Model.Split("|")[0]</h1>
-                        <h1 class="model">@car.Model.Split("|")[1]</h1>
+        <div class="card-wrapper">
+            <div class="card-container">
+            @foreach (Car car in Model)
+            {
+                @if (car.Model.Contains(""))
+                {
+                <div class="card">
+                    @if (@car.Model.Contains("Model X"))
+                    {
+                        <img class="card-image" src="../multimedia/pictures/ModelX-Panel.jpg">
+                    }else if(@car.Model.Contains("Model Y")) {
+                        <img class="card-image" src="../multimedia/pictures/ModelY-Panel.png">
+                    }else if(@car.Model.Contains("Model 3")) {
+                        <img class="card-image" src="../multimedia/pictures/TeslaModel3-Panel.jpg">
+                    }else if(@car.Model.Contains("Model S")) {
+                        <img class="card-image" src="../multimedia/pictures/ModelS-Panel.jpg">
+                    }
+                    <h1 class="model first">@car.Model.Split("|")[0]</h1>
+                    <h1 class="model second">@car.Model.Split("|")[1]</h1>
 
-                <div class="props">
-                    <span class="text-prop">Reichweite:</span>
-                    <span class="prop">@car.Max_range km</span>
-                
-                    <span class="text-prop">Geschwindigkeit:</span>
-                    <span class="prop">@car.Max_speed km/h</span>
+                    <div class="props">
+                        <span class="text-prop">Reichweite:</span>
+                        <span class="prop">@car.Max_range km</span>
+                    
+                        <span class="text-prop">Geschwindigkeit:</span>
+                        <span class="prop">@car.Max_speed km/h</span>
 
-                    <span class="text-prop">0-100 km/h:</span>
-                    <span class="prop">@car.Acceleration Sek.</span>
+                        <span class="text-prop">0-100 km/h:</span>
+                        <span class="prop">@car.Acceleration Sek.</span>
 
-                    <span class="text-prop">PS:</span>
-                    <span class="prop">@car.Ps</span>
+                        <span class="text-prop">PS:</span>
+                        <span class="prop">@car.Ps</span>
 
-                    <span class="text-prop">Price:</span>
-                    <span class="prop">@car.Price.ToString().Split(",")[0] €</span>
+                        <span class="text-prop">Price:</span>
+                        <span class="prop">@car.Price.ToString().Split(",")[0] €</span>
+                    </div>
                 </div>
+                }
+            }
+            
             </div>
-          }
-       }
-        
         </div>
     }else {
         <span class="error-message">@Context.Session.GetString("car-error")</span>
