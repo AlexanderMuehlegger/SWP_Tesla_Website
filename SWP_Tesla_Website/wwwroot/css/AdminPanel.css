@@ -53,35 +53,48 @@
 }
 
 .card {
+    position: relative;
+    max-width: 400px;
     min-width: 400px;
-    min-height: 550px;
+    min-height: 100%;
+    height: max-content;
     border-radius: 15px;
     box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.5);
     overflow-x: hidden;
-    overflow-y: auto;
-    display: flex;
-    flex-direction: column;
     text-align: center;
+    padding-bottom: 1rem;
+    transform: scale(clamp(.75, .80, 1));
+    margin-bottom: -25%;
 }
 
 .card-image {
+    width: 100%;
+    object-fit:contain;
     transform: scale(100%);
 }
 
 .card-container {
+    position: relative;
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    width: min-content;
-    gap: 3rem;
+    grid-template-columns: repeat(auto-fit, 350px);
+    grid-template-rows: min-content;
+    gap: 10px;
+    width: 90%; 
     align-self: center;
     overflow-y: auto;
-    padding: 1rem;
+    overflow-x: hidden;
+    justify-items: center;
+    padding-bottom: 2rem;
 }
 
 .model {
     font-size: 40px;
-    font-weight: 1000;   
+    font-weight: 900;   
     margin-bottom: 2rem;
+}
+
+.model.first {
+    margin: 0;
 }
 
 .text-prop {
@@ -103,6 +116,7 @@
     display: grid;
     grid-template-columns: .75fr .5fr;
     gap: 1rem;
+    margin-bottom: 2rem;
 }
 
 .select-box {

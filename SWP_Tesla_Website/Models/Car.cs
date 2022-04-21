@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace SWP_Tesla_Website.Models {
     public class Car {
@@ -25,6 +26,16 @@ namespace SWP_Tesla_Website.Models {
                 }
             });
             return json;
+        }
+        public static string getNameFromJson(string jsonobject) {
+            JObject json = JObject.Parse(jsonobject);
+            string name = json["_car"]["Model"].ToString();
+
+            return name;
+        }
+
+        public string getModelName() {
+            return this.Model.Split("|")[0].Trim();
         }
     }
 }

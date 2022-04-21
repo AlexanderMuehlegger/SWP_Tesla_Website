@@ -13,6 +13,7 @@ namespace SWP_Tesla_Website.Controllers {
     public class AccountController : Controller {
 
         private IRepositoryUser _rep = new RepositoryUserDB();
+        private IRepositoryCar _rep_car = new RepositoryCarDB();
 
 
         public IActionResult Index() {
@@ -29,7 +30,7 @@ namespace SWP_Tesla_Website.Controllers {
         }
 
         [HttpGet]
-        public IActionResult AdminPanel() {
+        public async Task<IActionResult> AdminPanel() {
             string user_string = HttpContext.Session.GetString("user");
             if (user_string == null || user_string.Length == 0)
                 return RedirectToAction("Login");
@@ -38,8 +39,11 @@ namespace SWP_Tesla_Website.Controllers {
 
             if(!access.hasAccess(Access.ADMIN))
                 return RedirectToAction("index");
-            
-            return View();
+
+            List<Car> cars = await GetCars();
+
+
+            return View(cars);
         }
 
         [HttpGet]
@@ -102,14 +106,9 @@ namespace SWP_Tesla_Website.Controllers {
             string user_string = HttpContext.Session.GetString("user");
             if (user_string == null)
                 return RedirectToAction("Login");
-<<<<<<< HEAD
-
             HttpContext.Session.Remove("user");
 
             return RedirectToAction("login");
-
-=======
->>>>>>> 5dcdc6981f86018bc6c520d01bdf86a542e86372
         }
 
         [HttpGet]
@@ -178,6 +177,24 @@ namespace SWP_Tesla_Website.Controllers {
                 ModelState.AddModelError("Password", "Das Passwort muss mindestens 6 Zeichen lang sein!");
 
             return true;
+        }
+
+        public async Task<List<Car>> GetCars() {
+            List<Car> cars;
+
+            try {
+                await _rep_car.ConnectAsync();
+                cars = await _rep_car.GetAllAsync();
+
+                return cars;
+
+            }catch (Exception ex) {
+                HttpContext.Session.SetString("car-error", "Car data couldn't be loaded!");
+                return null;
+            }finally {
+                await _rep_car.DisconnectAsync();
+            }
+
         }
     }
 

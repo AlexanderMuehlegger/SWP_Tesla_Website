@@ -11,18 +11,18 @@ namespace SWP_Tesla_Website.Models.DB {
         public string DbConnection_string = "server=localhost;database=tesla;uid=root;password=''";
 
         public async Task ConnectAsync() {
-            if (this._conn == null) {
+            if (this._conn == null) 
                 _conn = new MySqlConnection(DbConnection_string);
-            }
-            if (this._conn?.State == System.Data.ConnectionState.Closed) {
+            
+            if (this._conn?.State == System.Data.ConnectionState.Closed) 
                 await _conn.OpenAsync();
-            }
+            
         }
 
         public async Task DisconnectAsync() {
-            if (this._conn?.State == System.Data.ConnectionState.Open) {
+            if (this._conn?.State == System.Data.ConnectionState.Open) 
                 await this._conn.CloseAsync();
-            }
+            
         }
 
         public async Task<List<Car>> GetAllAsync() {
