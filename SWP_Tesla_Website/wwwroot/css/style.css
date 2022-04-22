@@ -38,6 +38,7 @@ body {
     height: 100vh;
     overflow-x: hidden;
     justify-content: flex-end;
+    margin: 0;
 }
 .primary-container {
     left: 0;

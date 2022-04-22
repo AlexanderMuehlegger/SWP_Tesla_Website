@@ -14,7 +14,7 @@
             No Filter
         </div>
         <div class="option-container">
-            <div class="option">
+            @*<div class="option">
                 <input class="radio" type="radio" name="type" id="Standard">
                 <label for="Standard">Standard Range</label>
             </div>
@@ -33,11 +33,21 @@
             <div class="option">
                 <input class="radio" type="radio" name="type" id="No_Filter">
                 <label for="No_Filter">No Filter</label>
-            </div>
+            </div>*@
+        </div>
+    </div>
+    <div class="mode-switcher">
+        <button class="car-mode-switch">Autos</button>
+        <button class="user-mode-switch">User</button>
+    </div>
+
+    <div class="user-container">
+        <div>
         </div>
     </div>
 
-    @if(Model != null) {
+        @if(Model != null) {
+    <div class="car-container">
         <div class="card-wrapper">
             <div class="card-container">
             @foreach (Car car in Model)
@@ -78,10 +88,11 @@
                 }
             }
             
+                </div>
             </div>
-        </div>
-    }else {
-        <span class="error-message">@Context.Session.GetString("car-error")</span>
-    }
+    </div>
+        }else {
+            <span class="error-message">@Context.Session.GetString("car-error")</span>
+        }
 </div>
 <script src="~/js/AdminPanel.js"></script>

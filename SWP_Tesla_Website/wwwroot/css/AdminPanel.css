@@ -1,6 +1,9 @@
 ﻿.primary-menu {
     display: none;
 }
+.primary-content {
+    overflow-y: hidden;
+}
 
 .wrapper {
     position: static;
@@ -52,17 +55,22 @@
     outline: none;
 }
 
+.car-container {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    overflow-y: scroll;
+}
+
 .card {
     position: relative;
-    max-width: 400px;
-    min-width: 400px;
+    width: 400px;
     min-height: 100%;
     height: max-content;
     border-radius: 15px;
     box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.5);
-    overflow-x: hidden;
+    overflow: hidden;
     text-align: center;
-    padding-bottom: 1rem;
     transform: scale(clamp(.75, .80, 1));
     margin-bottom: -25%;
     display: flex;
@@ -71,30 +79,32 @@
 
 .card-image {
     width: 100%;
-    object-fit:contain;
+    object-fit: cover;
     transform: scale(105%);
+    display: block;
 }
 
 
 .card-wrapper {
+    position: relative;
+    top: 0;
     width: 90%;
     align-self: center;
-    overflow-y: scroll;
     padding-block: 2rem;
 }
 
 .card-container {
-    position: relative;
     display: grid;
-    grid-template-columns: repeat(auto-fit, 350px);
+    grid-template-columns: repeat(auto-fit, 400px);
     grid-template-rows: min-content;
     gap: 10px;
     width: 100%;
-    align-self: center;
-    overflow-y: auto;
-    overflow-x: hidden;
+    overflow: hidden;
     justify-items: center;
     padding-bottom: 2rem;
+    align-items: center;
+    row-gap: 0;
+    column-gap: 0;
 }
 
 .model {
