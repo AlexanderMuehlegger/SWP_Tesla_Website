@@ -1,5 +1,6 @@
 ﻿using MySql.Data.MySqlClient;
 using System;
+using System.Collections.Generic;
 using System.Data.Common;
 using System.Threading.Tasks;
 
@@ -150,11 +151,29 @@ namespace SWP_Tesla_Website.Models.DB {
 
         public User getUserData (DbDataReader reader) {
             return new User() {
+                ID = int.Parse(reader["user_id"].ToString()),
                 Username = Convert.ToString(reader["username"]),
                 Password = Convert.ToString(reader["password"]),
                 Email = Convert.ToString(reader["email"]),
                 access = (Access)Convert.ToInt32(reader["access"])
             };
+        }
+
+        public async Task<List<User>> GetAllUser () {
+            if (this._conn?.State != System.Data.ConnectionState.Open)
+                return null;
+
+            DbCommand cmd = this._conn.CreateCommand();
+            cmd.CommandText = "SELECT * FROM user";
+
+            List<User> users = new List<User>();
+
+            using(DbDataReader reader = await cmd.ExecuteReaderAsync()) {
+                while(reader.Read()) {
+                    users.Add(getUserData(reader));
+                }
+            }
+            return users;
         }
     }
 }

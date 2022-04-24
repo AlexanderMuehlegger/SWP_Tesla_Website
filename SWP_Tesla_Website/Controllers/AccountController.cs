@@ -16,6 +16,7 @@ namespace SWP_Tesla_Website.Controllers {
         private IRepositoryCar _rep_car = new RepositoryCarDB();
 
 
+        [HttpGet]
         public IActionResult Index() {
             string user_string = HttpContext.Session.GetString("user");
             if (user_string == null || user_string.Length == 0)
@@ -40,10 +41,14 @@ namespace SWP_Tesla_Website.Controllers {
             if(!access.hasAccess(Access.ADMIN))
                 return RedirectToAction("index");
 
-            List<Car> cars = await GetCars();
+            List<Car> cars = await GetCarListAsync();
+            List<User> users = await GetUserListAsync();
 
+            List<List<object>> obj = new List<List<object>>();
+            obj.Add(cars.Cast<object>().ToList());
+            obj.Add(users.Cast<object>().ToList());
 
-            return View(cars);
+            return View(obj);
         }
 
         [HttpGet]
@@ -150,6 +155,14 @@ namespace SWP_Tesla_Website.Controllers {
             return View("Login", userData);
         }
 
+        public ActionResult changeAdminPanelState () {
+            string currentState = HttpContext.Session.GetString("adminpanel-state");
+
+            HttpContext.Session.SetString("adminpanel-state", currentState == "car" ? "user" : "car");
+
+            return Content(currentState == "car" ? "user" : "car");
+        }
+
         private bool ValidateRegisterData(User user) {
             if (user == null)
                 return false;
@@ -179,13 +192,16 @@ namespace SWP_Tesla_Website.Controllers {
             return true;
         }
 
-        public async Task<List<Car>> GetCars() {
+        public async Task<List<Car>> GetCarListAsync() {
+            HttpContext.Session.Remove("car-error");
             List<Car> cars;
+
 
             try {
                 await _rep_car.ConnectAsync();
+                
                 cars = await _rep_car.GetAllAsync();
-
+                
                 return cars;
 
             }catch (Exception ex) {
@@ -195,6 +211,25 @@ namespace SWP_Tesla_Website.Controllers {
                 await _rep_car.DisconnectAsync();
             }
 
+        }
+
+        public async Task<List<User>> GetUserListAsync () {
+            HttpContext.Session.Remove("user-error");
+
+            List<User> user;
+
+            try {
+                await _rep.ConnectAsync();
+
+                user = await _rep.GetAllUser();
+
+                return user;
+            }catch (Exception ex) {
+                HttpContext.Session.SetString("user-error", "Users couldn't be loaded!");
+                return null;
+            }finally {
+                await _rep.DisconnectAsync();
+            }
         }
     }
 

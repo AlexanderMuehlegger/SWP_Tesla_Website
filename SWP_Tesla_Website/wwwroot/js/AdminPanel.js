@@ -104,14 +104,22 @@ function initOptions(){
 }
 
 car_switch.addEventListener('click', () => {
-    user_container.style.display = 'none'
-    car_container.style.display = ''
-    loadCarFilter()
+    setCarState()
 })
 
 user_switch.addEventListener('click', () => {
+    setUserState()
+})
+
+function setCarState(){
+    user_container.style.display = 'none'
+    car_container.style.display = ''
+    loadCarFilter()
+}
+
+function setUserState(){
     user_container.style.display = ''
     car_container.style.display = 'none'
     loadUserFilter()
-})
+}
 

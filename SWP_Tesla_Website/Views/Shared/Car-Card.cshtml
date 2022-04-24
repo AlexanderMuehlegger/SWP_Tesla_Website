@@ -1,0 +1,33 @@
+﻿@model Car
+
+<div class="card">
+    @if (Model.Model.Contains("Model X"))
+    {
+        <img class="card-image" src="../multimedia/pictures/ModelX-Panel.jpg">
+    }else if(Model.Model.Contains("Model Y")) {
+        <img class="card-image" src="../multimedia/pictures/ModelY-Panel.png">
+    }else if(Model.Model.Contains("Model 3")) {
+        <img class="card-image" src="../multimedia/pictures/TeslaModel3-Panel.jpg">
+    }else if(Model.Model.Contains("Model S")) {
+        <img class="card-image" src="../multimedia/pictures/ModelS-Panel.jpg">
+    }
+    <h1 class="model first">@Model.Model.Split("|")[0]</h1>
+    <h1 class="model second">@Model.Model.Split("|")[1]</h1>
+
+    <div class="props">
+        <span class="text-prop">Reichweite:</span>
+        <span class="prop">@Model.Max_range km</span>
+                    
+        <span class="text-prop">Geschwindigkeit:</span>
+        <span class="prop">@Model.Max_speed km/h</span>
+
+        <span class="text-prop">0-100 km/h:</span>
+        <span class="prop">@Model.Acceleration Sek.</span>
+
+        <span class="text-prop">PS:</span>
+        <span class="prop">@Model.Ps</span>
+
+        <span class="text-prop">Price:</span>
+        <span class="prop">@Model.Price.ToString().Split(",")[0] €</span>
+    </div>
+</div>

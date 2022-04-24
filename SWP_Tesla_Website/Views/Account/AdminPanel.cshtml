@@ -1,4 +1,4 @@
-﻿@model List<Car>
+﻿@model List<List<object>>
 
 
 <link rel="stylesheet" href="~/css/adminpanel.css">
@@ -13,86 +13,98 @@
         <div class="selected">
             No Filter
         </div>
-        <div class="option-container">
-            @*<div class="option">
-                <input class="radio" type="radio" name="type" id="Standard">
-                <label for="Standard">Standard Range</label>
-            </div>
-            <div class="option">
-                <input class="radio" type="radio" name="type" id="Long">
-                <label for="Long">Long Range</label>
-            </div>
-            <div class="option">
-                <input class="radio" type="radio" name="type" id="Performance">
-                <label for="Performance">Performance</label>
-            </div>
-            <div class="option">
-                <input class="radio" type="radio" name="type" id="Plaid">
-                <label for="Plaid">Plaid</label>
-            </div>
-            <div class="option">
-                <input class="radio" type="radio" name="type" id="No_Filter">
-                <label for="No_Filter">No Filter</label>
-            </div>*@
-        </div>
+        <div class="option-container"></div>
+
     </div>
     <div class="mode-switcher">
         <button class="car-mode-switch">Autos</button>
         <button class="user-mode-switch">User</button>
     </div>
 
-    <div class="user-container">
-        <div>
-        </div>
-    </div>
-
-        @if(Model != null) {
-    <div class="car-container">
-        <div class="card-wrapper">
-            <div class="card-container">
-            @foreach (Car car in Model)
-            {
-                @if (car.Model.Contains(""))
-                {
-                <div class="card">
-                    @if (@car.Model.Contains("Model X"))
-                    {
-                        <img class="card-image" src="../multimedia/pictures/ModelX-Panel.jpg">
-                    }else if(@car.Model.Contains("Model Y")) {
-                        <img class="card-image" src="../multimedia/pictures/ModelY-Panel.png">
-                    }else if(@car.Model.Contains("Model 3")) {
-                        <img class="card-image" src="../multimedia/pictures/TeslaModel3-Panel.jpg">
-                    }else if(@car.Model.Contains("Model S")) {
-                        <img class="card-image" src="../multimedia/pictures/ModelS-Panel.jpg">
-                    }
-                    <h1 class="model first">@car.Model.Split("|")[0]</h1>
-                    <h1 class="model second">@car.Model.Split("|")[1]</h1>
-
-                    <div class="props">
-                        <span class="text-prop">Reichweite:</span>
-                        <span class="prop">@car.Max_range km</span>
-                    
-                        <span class="text-prop">Geschwindigkeit:</span>
-                        <span class="prop">@car.Max_speed km/h</span>
-
-                        <span class="text-prop">0-100 km/h:</span>
-                        <span class="prop">@car.Acceleration Sek.</span>
-
-                        <span class="text-prop">PS:</span>
-                        <span class="prop">@car.Ps</span>
-
-                        <span class="text-prop">Price:</span>
-                        <span class="prop">@car.Price.ToString().Split(",")[0] €</span>
-                    </div>
-                </div>
-                }
-            }
-            
+    <div class="user-container" style="display: none;">
+        @if(Model[1] != null){
+            <div class="user-table">
+                <div class="user-card">
+                    <table>
+                        <thead>
+                            <th>ID</th>
+                            <th>Username</th>
+                            <th>Email</th>
+                            <th>Access</th>
+                        </thead>
+                        <tbody>
+                            @foreach(User user in Model[1]){
+                                <tr>
+                                <td>@user.ID</td>
+                                <td>@user.Username</td>
+                                <td>@user.Email</td>
+                                <td>@user.access.getAccessName()</td>
+                            </tr>
+                            }
+                        </tbody>
+                    </table>
                 </div>
             </div>
-    </div>
-        }else {
-            <span class="error-message">@Context.Session.GetString("car-error")</span>
         }
+    </div>
+
+    @if(Model[0] != null) {
+        <div class="car-container" style="display: none; ">
+            <div class="card-wrapper">
+                <div class="card-container">
+                @foreach (Car car in Model[0])
+                {
+                    @if (car.Model.Contains(""))
+                    {
+                        <partial name="Car-Card" model=car></partial>
+                    }
+                }
+                
+                    </div>
+                </div>
+        </div>
+    }else {
+        <span class="error-message">@Context.Session.GetString("car-error")</span>
+    }
+    <div id="site-state" style="display:none;">@Context.Session.GetString("adminpanel-state")</div>
 </div>
+
 <script src="~/js/AdminPanel.js"></script>
+<script>
+    const state_div = document.getElementById("site-state")
+    function getSession(){
+        
+        var state = state_div.innerText;
+        if(state == null)
+            return;
+        
+        if(state == "car")
+            setCarState()
+        else if(state == "user")
+            setUserState()
+            
+        console.log("loaded" + state)
+    }
+
+    getSession()
+
+    document.querySelector(".car-mode-switch").addEventListener('click', () => {
+        if(state_div.innerText == "user")
+            changeState()        
+    })
+
+    document.querySelector(".user-mode-switch").addEventListener('click', () => {
+        if(state_div.innerText == "car")
+            changeState()
+    })
+
+    function changeState(){
+        fetch("/account/changeadminpanelstate")
+            .then(response => response.text())
+            .then(data => state_div.innerText = data)
+        
+    }
+
+    
+
+</script>

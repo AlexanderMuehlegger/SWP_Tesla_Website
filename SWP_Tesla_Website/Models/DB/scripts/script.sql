@@ -24,8 +24,16 @@ create table car (
     PRIMARY KEY (car_id)
 );
 
-INSERT INTO user VALUES(null, "amuehlegger@tsn.at", "alexander", sha2('12345678', 256), 4);
-INSERT INTO user VALUES(null, "josef@tsn.at", "josef", sha2('12345678', 256), DEFAULT);
+INSERT INTO user VALUES(null, "amuehlegger@tsn.at", "alexander", sha2('12345678', 256), 3);
+INSERT INTO user VALUES(null, "krillinger@tsn.at", "josef", sha2('12345678', 256), DEFAULT);
+INSERT INTO user VALUES(null, "stoani@tsn.at", "stoani", sha2('12345678', 256), DEFAULT);
+INSERT INTO user VALUES(null, "domi@tsn.at", "domi", sha2('12345678', 256), DEFAULT);
+INSERT INTO user VALUES(null, "simon@tsn.at", "simon", sha2('12345678', 256), DEFAULT);
+INSERT INTO user VALUES(null, "marcel@tsn.at", "marcel", sha2('12345678', 256), DEFAULT);
+INSERT INTO user VALUES(null, "melih@tsn.at", "melih", sha2('12345678', 256), -1);
+INSERT INTO user VALUES(null, "alex@tsn.at", "alex", sha2('12345678', 256), 2);
+INSERT INTO user VALUES(null, "domdom@tsn.at", "domdom", sha2('12345678', 256), -2);
+
 
 INSERT INTO car VALUES(null, "Model S | Standard Range", 541, 3.2, 100000.0, 652, 250);
 INSERT INTO car VALUES(null, "Model S | Plaid", 1020, 2.1, 125000.0, 637, 322);

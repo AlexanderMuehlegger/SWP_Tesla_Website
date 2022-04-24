@@ -54,9 +54,9 @@ namespace SWP_Tesla_Website.Models.DB {
         public async Task<Car> GetByIdAsync(int id) {
             if (this._conn?.State == System.Data.ConnectionState.Open) {
                 DbCommand cmdCar = this._conn.CreateCommand();
-                cmdCar.CommandText = "select * from car where car_id=@car_id";
+                cmdCar.CommandText = "select * from car where car_id=@_id";
                 DbParameter dbParam = cmdCar.CreateParameter();
-                dbParam.ParameterName = "@car_id";
+                dbParam.ParameterName = "@_id";
                 dbParam.Value = id;
                 cmdCar.Parameters.Add(dbParam);
 
@@ -72,7 +72,7 @@ namespace SWP_Tesla_Website.Models.DB {
         public async Task<bool> InsertAsync(Car car) {
             if (this._conn?.State == System.Data.ConnectionState.Open) {
                 DbCommand cmdInsert = this._conn.CreateCommand();
-                cmdInsert.CommandText = "insert into car values(null, @Model, @Ps, @Acceleration, @Price, @Max_range, @Max_speed);";
+                cmdInsert.CommandText = "insert into car values(null, Model, @Ps, @Acceleration, @Price, @Max_range, @Max_speed);";
 
                 DbParameter paramM = cmdInsert.CreateParameter();
                 paramM.ParameterName = "Model";
@@ -119,7 +119,7 @@ namespace SWP_Tesla_Website.Models.DB {
         public async Task<bool> UpdateAsync(Car car) {
             if (this._conn?.State == System.Data.ConnectionState.Open) {
                 DbCommand cmdUpdate = this._conn.CreateCommand();
-                cmdUpdate.CommandText = "update car set Model=@Model, Ps=@Ps, Acceleration=@Acceleration, Price=@Price, Max_range=@Max_range, Max_speed=@Max_speed where car_id=@car_id";
+                cmdUpdate.CommandText = "update car set Model=Model, Ps=@Ps, Acceleration=@Acceleration, Price=@Price, Max_range=@Max_range, Max_speed=@Max_speed where car_id=@_id";
 
                 DbParameter paramM = cmdUpdate.CreateParameter();
                 paramM.ParameterName = "Model";
@@ -166,9 +166,9 @@ namespace SWP_Tesla_Website.Models.DB {
         public async Task<bool> DeleteAsync(int id) {
             if (this._conn?.State == System.Data.ConnectionState.Open) {
                 DbCommand cmd = this._conn.CreateCommand();
-                cmd.CommandText = "delete from car where car_id=@car_id";
+                cmd.CommandText = "delete from car where car_id=@_id";
                 DbParameter idParam = cmd.CreateParameter();
-                idParam.ParameterName = "@car_id";
+                idParam.ParameterName = "@_id";
                 idParam.Value = id;
                 cmd.Parameters.Add(idParam);
                 return await cmd.ExecuteNonQueryAsync() > 0;

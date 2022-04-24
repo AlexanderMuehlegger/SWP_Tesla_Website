@@ -10,5 +10,22 @@
 
             return givenAccess >= neededAccess;
         }
+
+        public static string getAccessName(this Access access ) {
+            switch (access) {
+                case Access.BANNED:
+                    return "BANNED";
+                case Access.USER:
+                    return "User";
+                case Access.MOD:
+                    return "Moderator";
+                case Access.ADMIN:
+                    return "Administrator";
+                case Access.DEV:
+                    return "Developer";
+                default:
+                    return "UNAUTHORIZED";
+            }
+        }
     }
 }
