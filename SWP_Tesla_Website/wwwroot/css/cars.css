@@ -1,0 +1,45 @@
+﻿body {
+    color:red;
+}
+
+.display-car-data{
+    display:grid;
+    width:min-content;
+    gap:3rem;
+    align-self:center;
+    overflow-x:auto;
+    padding:1rem;
+}
+
+.car-data{
+    min-width:10px;
+    min-height:20px;
+    overflow-x:auto;
+    overflow-y:hidden;
+    display:flex;
+    flex-direction:row;
+    text-align:center;
+    
+}
+
+.props{
+    align-self:center;
+    display:grid;
+    gap:1rem;
+}
+
+.text-prop{
+    width:max-content;
+    font-size:15px;
+    font-weight:bold;
+    margin-block:.5rem;
+}
+
+.prop{
+    width:max-content;
+    padding:1rem;
+}
+
+
+
+

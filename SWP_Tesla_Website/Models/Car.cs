@@ -27,6 +27,7 @@ namespace SWP_Tesla_Website.Models {
             });
             return json;
         }
+<<<<<<< Updated upstream
         public static string getNameFromJson(string jsonobject) {
             JObject json = JObject.Parse(jsonobject);
             string name = json["_car"]["Model"].ToString();
@@ -37,6 +38,8 @@ namespace SWP_Tesla_Website.Models {
         public string getModelName() {
             return this.Model.Split("|")[0].Trim();
         }
+=======
+>>>>>>> Stashed changes
 
         public static Car getObject(string jsonObject) {
             JObject json = JObject.Parse(jsonObject);
@@ -44,7 +47,11 @@ namespace SWP_Tesla_Website.Models {
             return new Car() {
                 Model = json["_car"]["Model"].ToString(),
                 Ps = ((int)json["_car"]["Ps"]),
+<<<<<<< Updated upstream
                 Acceleration = ((double)json["_car"]["Acceleration"]),
+=======
+                Acceleration = ((decimal)json["_car"]["Acceleration"]),
+>>>>>>> Stashed changes
                 Price = ((decimal)json["_car"]["Price"]),
                 Max_range = ((int)json["_car"]["Max_range"]),
                 Max_speed = ((int)json["_car"]["Max_speed"])
