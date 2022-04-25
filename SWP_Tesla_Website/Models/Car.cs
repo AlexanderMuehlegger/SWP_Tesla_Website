@@ -37,5 +37,18 @@ namespace SWP_Tesla_Website.Models {
         public string getModelName() {
             return this.Model.Split("|")[0].Trim();
         }
+
+        public static Car getObject(string jsonObject) {
+            JObject json = JObject.Parse(jsonObject);
+
+            return new Car() {
+                Model = json["_car"]["Model"].ToString(),
+                Ps = ((int)json["_car"]["Ps"]),
+                Acceleration = ((double)json["_car"]["Acceleration"]),
+                Price = ((decimal)json["_car"]["Price"]),
+                Max_range = ((int)json["_car"]["Max_range"]),
+                Max_speed = ((int)json["_car"]["Max_speed"])
+            };
+        }
     }
 }
