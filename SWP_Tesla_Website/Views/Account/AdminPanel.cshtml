@@ -34,7 +34,7 @@
                         </thead>
                         <tbody>
                             @foreach(User user in Model[1]){
-                                <tr>
+                                <tr class="table-row">
                                 <td>@user.ID</td>
                                 <td>@user.Username</td>
                                 <td>@user.Email</td>
@@ -69,19 +69,21 @@
     <div id="site-state" style="display:none;">@Context.Session.GetString("adminpanel-state")</div>
 </div>
 
-<script src="~/js/AdminPanel.js"></script>
-<script>
+<script type="module" src="~/js/AdminPanel.js"></script>
+<script type="module">
+    import * as adminpanel from "/AdminPanel.js"
+
     const state_div = document.getElementById("site-state")
     function getSession(){
         
         var state = state_div.innerText;
         if(state == null)
-            return;
+            state == "car"
         
         if(state == "car")
-            setCarState()
+            adminpanel.setState("car")
         else if(state == "user")
-            setUserState()
+            adminpanel.setState("user")
             
         console.log("loaded" + state)
     }

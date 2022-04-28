@@ -2,6 +2,7 @@
 const option_container = document.querySelector(".option-container");
 
 const cards = document.querySelectorAll(".card");
+const users = document.querySelectorAll(".table-row")
 
 const car_switch = document.querySelector(".car-mode-switch");
 const user_switch = document.querySelector(".user-mode-switch");
@@ -45,7 +46,7 @@ function loadCarFilter(){
         div.appendChild(label)
         option_container.appendChild(div)
     })
-    initOptions()
+    initOptions("car")
 }
 
 function loadUserFilter(){
@@ -72,7 +73,7 @@ function loadUserFilter(){
         div.appendChild(label)
         option_container.appendChild(div)
     })
-    initOptions()
+    initOptions("user")
 }
 
 selected_obj.addEventListener('click', () => {
@@ -82,24 +83,44 @@ selected_obj.addEventListener('click', () => {
     option_container.classList.toggle("active")
 });
 
-function initOptions(){
+function initOptions(mode){
     document.querySelectorAll(".option").forEach(i => {
         i.addEventListener('click', () => {
             var innerText = i.querySelector("label").innerHTML;
             selected_obj.innerHTML = innerText
             option_container.classList.remove("active")
-    
-            cards.forEach(card => {
-                if(innerText == "No Filter"){
-                    card.style.display = ''
-                }else {
-                    if(!card.querySelector(".model.second").innerHTML.includes(innerText))
-                        card.style.display = 'none';
-                    else
-                        card.style.display = ''
-                }
-            })
+
+            if(mode == "car")
+                car_filtering(innerText)
+            else if(mode == "user")
+                user_filtering(innerText)
         })
+    })
+}
+
+function car_filtering(innerText) {
+        cards.forEach(card => {
+        if(innerText == "No Filter"){
+            card.style.display = ''
+        }else {
+            if(!card.querySelector(".model.second").innerHTML.includes(innerText))
+                card.style.display = 'none';
+            else
+                card.style.display = ''
+        }
+    })
+}
+
+function user_filtering(innerText) {
+    users.forEach(user => {
+        if(innerText == "No Filter"){
+            user.style.display = ''
+        }else{
+            if(!user.querySelector("td:nth-child(4)").innerHTML.toString().toLowerCase().includes(innerText.toString().toLowerCase()))
+                user.style.display = 'none'
+            else
+                user.style.display = ''
+        }
     })
 }
 
@@ -123,3 +144,13 @@ function setUserState(){
     loadUserFilter()
 }
 
+function setState(mode){
+    {
+        if(mode == "car")
+            setCarState()
+        else 
+            setUserState()
+    }
+}
+
+module.export = setState(mode);
