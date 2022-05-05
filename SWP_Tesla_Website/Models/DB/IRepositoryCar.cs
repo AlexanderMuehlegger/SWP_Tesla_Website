@@ -12,5 +12,6 @@ namespace SWP_Tesla_Website.Models.DB {
         public Task<bool> UpdateAsync(Car car);
         public Task<bool> InsertAsync(Car car);
         public Task<bool> DeleteAsync(int id);
+        public Task<Car> GetByModelAsync(String model);
     }
 }

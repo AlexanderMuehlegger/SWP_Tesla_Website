@@ -3,22 +3,27 @@
 }
 
 .display-car-data{
-    display:grid;
-    width:min-content;
+    align-self:center;
+    align-items:center;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    width:fit-content;
     gap:3rem;
     align-self:center;
     overflow-x:auto;
     padding:1rem;
-    position:fixed;
+    position:absolute;
     margin: 0px;
+    
     color: red;
     bottom:0;
-    left:0;
+    width:100%
 }
 
 .car-data{
-    min-width:10px;
-    min-height:20px;
+    min-width:5px;
+    min-height:10px;
     overflow-x:auto;
     overflow-y:hidden;
     display:flex;
@@ -29,18 +34,22 @@
 
 .props{
     align-self:center;
-    display:grid;
+    display:flex;
     gap:1rem;
+    flex-direction:column;
+    grid-template-columns: repeat(2, 1fr);
 }
 
 .text-prop{
+    align-self:center;
     width:max-content;
     font-size:15px;
     font-weight:bold;
-    margin-block:.5rem;
+    margin-block:.1rem;
 }
 
 .prop{
+    align-self:center;
     width:max-content;
     padding:1rem;
 }

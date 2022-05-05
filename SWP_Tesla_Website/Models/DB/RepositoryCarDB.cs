@@ -11,12 +11,12 @@ namespace SWP_Tesla_Website.Models.DB {
         public string DbConnection_string = "server=localhost;database=tesla;uid=root;password=''";
 
         public async Task ConnectAsync() {
-            if (this._conn == null) 
+            if (this._conn == null) {
                 _conn = new MySqlConnection(DbConnection_string);
-            
-            if (this._conn?.State == System.Data.ConnectionState.Closed) 
+            }
+            if (this._conn?.State == System.Data.ConnectionState.Closed) {
                 await _conn.OpenAsync();
-            
+            }
         }
 
         public async Task DisconnectAsync() {
@@ -185,6 +185,24 @@ namespace SWP_Tesla_Website.Models.DB {
                 Max_range = Convert.ToInt32(reader["Max_range"]),
                 Max_speed = Convert.ToInt32(reader["Max_speed"])
             };
+        }
+
+        public async Task<Car> GetByModelAsync(string model) {
+            if (this._conn?.State == System.Data.ConnectionState.Open) {
+                DbCommand cmdCar = this._conn.CreateCommand();
+                cmdCar.CommandText = "select * from car where model=@_model";
+                DbParameter dbParam = cmdCar.CreateParameter();
+                dbParam.ParameterName = "@_model";
+                dbParam.Value = model;
+                cmdCar.Parameters.Add(dbParam);
+
+                using (DbDataReader readerCar = await cmdCar.ExecuteReaderAsync()) {
+                    if (readerCar.Read())
+                        return getCarData(readerCar);
+                }
+
+            }
+            return null;
         }
     }
 }

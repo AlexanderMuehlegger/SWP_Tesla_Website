@@ -1,18 +1,9 @@
-﻿@{
+﻿@model Car
+@{
     ViewData["Title"] = "Model 3";
 }
 <link rel="stylesheet" href="~/css/cars.css" />
 
 <img src="~/multimedia/pictures/Desktop-Model-3.png" class="primary-background-image" />
 
-<div class="display-car-data">
-    <div class="car-data">
-        <div class="props">
-            <span class="text-prop">100 km/h</span>
-            <span class="prop">Geschwindigkeit</span>
-
-            <span class="text-prop">100 km</span>
-            <span class="prop">Reichweite</span>
-        </div>
-    </div>
-</div>
+<partial name="CarData" data="Car" />
