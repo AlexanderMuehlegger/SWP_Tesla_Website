@@ -3,8 +3,24 @@
 
 <link rel="stylesheet" href="~/css/adminpanel.css">
 
+<div class="role-module">
+        <div class="role-container">
+            <div class="change-option">
+                <input type="radio" name="type" id="admin_change">
+                <label for="admin_change">Admin</label>
+            </div>
+            <div class="change-option">
+                <input type="radio" name="type" id="mod_change">
+                <label for="mod_change">Mod</label>
+            </div>
+            <div class="change-option">
+                <input type="radio" name="type" id="user_change">
+                <label for="user_change">User</label>
+            </div>
+            <button class="exit-changer">Exit</button>
+        </div>
+    </div>
 <div class="wrapper">
-
     <form class="logout-form" asp-action="logout" asp-controller="account" method="post">
         <button class="logout-btn"></button>
     </form>
@@ -35,15 +51,33 @@
                         <tbody>
                             @foreach(User user in Model[1]){
                                 <tr class="table-row">
-                                <td>@user.ID</td>
-                                <td>@user.Username</td>
-                                <td>@user.Email</td>
-                                <td>@user.access.getAccessName()</td>
-                            </tr>
-                            }
-                        </tbody>
+                                    <td>@user.ID</td>
+                                    <td>@user.Username</td>
+                                    <td>@user.Email</td>
+                                    <td>@user.access.getAccessName()</td>
+                                    <td>
+                                        @if(@user.access == Access.BANNED) {
+                                            <form class="unban-form" action="/Account/UnbanUser/@user.ID">
+                                                <button class="ban-btn">Unban</button>
+                                            </form>
+                                        }
+                                        else {
+                                            <form class="ban-form" action="/Account/BanUser/@user.ID">
+                                                <button class="ban-btn">Ban</button>
+                                            </form>
+                                        }
+                                    </td>
+                                    <td>
+                                        <button class="role-changer-btn" type="button" value="@user.ID">Change Role</button>
+                                    </td>
+                                </tr>
+                                }
+                            </tbody>
                     </table>
                 </div>
+                @if(Context.Session.GetString("ban-error") != null) {
+                        <span>@Context.Session.GetString("ban-error")</span>
+                    }
             </div>
         }
     </div>
@@ -69,22 +103,22 @@
     <div id="site-state" style="display:none;">@Context.Session.GetString("adminpanel-state")</div>
 </div>
 
-<script type="module" src="~/js/AdminPanel.js"></script>
-<script type="module">
-    import * as adminpanel from "/AdminPanel.js"
-
-    const state_div = document.getElementById("site-state")
+<script type="text/javascript" src="~/js/AdminPanel.js"></script>
+<script>
+    const state_div = document.querySelector("#site-state")
+    const role_changers = document.querySelectorAll(".role-changer-btn")
     function getSession(){
         
         var state = state_div.innerText;
-        if(state == null)
-            state == "car"
+        if(state == null || state == "")
+            state = "car"
         
         if(state == "car")
-            adminpanel.setState("car")
+            setState("car")
         else if(state == "user")
-            adminpanel.setState("user")
-            
+            setState("user")
+        
+        state_div.textContent = state
         console.log("loaded" + state)
     }
 
@@ -100,10 +134,17 @@
             changeState()
     })
 
+    role_changers.forEach(element => {
+        element.addEventListener('click', () => {
+
+        })
+    })
+
     function changeState(){
+        
         fetch("/account/changeadminpanelstate")
             .then(response => response.text())
-            .then(data => state_div.innerText = data)
+            .then(data => state_div.textContent = data)
         
     }
 

@@ -1,4 +1,4 @@
-﻿const selected_obj = document.querySelector(".selected");
+const selected_obj = document.querySelector(".selected");
 const option_container = document.querySelector(".option-container");
 
 const cards = document.querySelectorAll(".card");
@@ -145,12 +145,11 @@ function setUserState(){
 }
 
 function setState(mode){
-    {
-        if(mode == "car")
-            setCarState()
-        else 
-            setUserState()
-    }
+    
+    console.log("Mode: " + mode)
+    if(mode == "car")
+        setCarState()
+    else 
+        setUserState()
+    
 }
-
-module.export = setState(mode);

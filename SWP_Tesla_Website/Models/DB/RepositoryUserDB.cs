@@ -68,11 +68,11 @@ namespace SWP_Tesla_Website.Models.DB {
 
             if(user.Username == null && user.Email != null && user.Password != null) {
                 DbCommand cmd = this._conn.CreateCommand();
-                cmd.CommandText = "SELECT * FROM user where email=@email and sha2(password=@password, 256)";
+                cmd.CommandText = "SELECT * FROM user WHERE email=@email and password=sha2(@password, 256)";
 
                 DbParameter emailPar = cmd.CreateParameter();
                 emailPar.ParameterName = "email";
-                emailPar.Value = user.Email;
+                emailPar.Value = user.Email.ToLower();
                 cmd.Parameters.Add(emailPar);
 
                 DbParameter passwordPara = cmd.CreateParameter();
@@ -87,11 +87,11 @@ namespace SWP_Tesla_Website.Models.DB {
                     
             } else if(user.Username != null && user.Password != null){
                 DbCommand cmd = this._conn.CreateCommand();
-                cmd.CommandText = "SELECT * FROM user WHERE username=@username and sha2(password=@password, 256)";
+                cmd.CommandText = "SELECT * FROM user WHERE LOWER(username)=@username and password=sha2(@password, 256)";
 
                 DbParameter userPara = cmd.CreateParameter();
                 userPara.ParameterName = "username";
-                userPara.Value = user.Username;
+                userPara.Value = user.Username.ToLower();
                 cmd.Parameters.Add(userPara);
 
                 DbParameter pwPara = cmd.CreateParameter();
@@ -174,6 +174,27 @@ namespace SWP_Tesla_Website.Models.DB {
                 }
             }
             return users;
+        }
+
+        public async Task<bool> setAccessLevel(int id, Access role) {
+            if (this._conn?.State != System.Data.ConnectionState.Open)
+                return false;
+
+            DbCommand cmd = this._conn.CreateCommand();
+            cmd.CommandText = "UPDATE user set access=@access where user_id=@id";
+
+            DbParameter param = cmd.CreateParameter();
+            param.ParameterName = "id";
+            param.Value = id;
+            cmd.Parameters.Add(param);
+
+            DbParameter para = cmd.CreateParameter();
+            para.ParameterName = "access";
+            para.Value = (int)role;
+            cmd.Parameters.Add(para);
+
+            return await cmd.ExecuteNonQueryAsync() >= 1;
+            
         }
     }
 }

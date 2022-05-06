@@ -13,5 +13,6 @@ namespace SWP_Tesla_Website.Models.DB
         public Task<bool> DeleteAsync(int id);
         public Task<List<User>> GetAllUser ();
 
+        public Task<bool> setAccessLevel(int id, Access role); //true => ban | false => unban
     }
 }

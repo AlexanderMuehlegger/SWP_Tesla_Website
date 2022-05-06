@@ -22,9 +22,7 @@ namespace SWP_Tesla_Website.Controllers {
             if (user_string == null || user_string.Length == 0)
                 return RedirectToAction("Login");
 
-            Access access = SWP_Tesla_Website.Models.User.getObject(user_string).access;
-
-            if (access.hasAccess(Access.ADMIN))
+            if (hasAccess(Access.ADMIN))
                 return RedirectToAction("AdminPanel");
 
             return View();
@@ -32,14 +30,8 @@ namespace SWP_Tesla_Website.Controllers {
 
         [HttpGet]
         public async Task<IActionResult> AdminPanel() {
-            string user_string = HttpContext.Session.GetString("user");
-            if (user_string == null || user_string.Length == 0)
-                return RedirectToAction("Login");
-
-            Access access = SWP_Tesla_Website.Models.User.getObject(user_string).access;
-
-            if(!access.hasAccess(Access.ADMIN))
-                return RedirectToAction("index");
+            if(!hasAccess(Access.ADMIN))
+                return View("index"); 
 
             List<Car> cars = await GetCarListAsync();
             List<User> users = await GetUserListAsync();
@@ -65,6 +57,55 @@ namespace SWP_Tesla_Website.Controllers {
             return RedirectToAction("Index");
         }
 
+        [HttpGet]
+        public async Task<IActionResult> banUser(int id){
+            if (!hasAccess(Access.ADMIN))
+                return View("index");
+
+            HttpContext.Session.Remove("ban-error");
+            try {
+                await _rep.ConnectAsync();
+                User target = await _rep.GetByIdAsync(id);
+                Access currentAccess = getCurrentAccess();
+                if (target.access > currentAccess && currentAccess != Access.DEV)
+                    HttpContext.Session.SetString("ban-error", "INSUFFICIENT PERMISSIONS!");
+                if(!await _rep.setAccessLevel(id, Access.BANNED))
+                    HttpContext.Session.SetString("ban-error", "Something went wrong");
+
+                return RedirectToAction("adminpanel");
+            }catch(Exception ex) {
+                HttpContext.Session.SetString("ban-error", "Database error occured!");
+                return RedirectToAction("adminpanel");
+            }finally {
+                await _rep.DisconnectAsync();
+            }
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> unbanUser(int id) {
+            if (!hasAccess(Access.ADMIN))
+                return RedirectToAction("index");
+            HttpContext.Session.Remove("ban-error");
+
+            try {
+                await _rep.ConnectAsync();
+                User target = await _rep.GetByIdAsync(id);
+                if (target.access != Access.BANNED) {
+                    HttpContext.Session.SetString("ban-error", "User Not Banned!");
+                    return RedirectToAction("index");
+                }
+                if (await _rep.setAccessLevel(id, Access.USER))
+                    return RedirectToAction("index");
+
+            }catch (Exception ex) {
+                HttpContext.Session.SetString("ban-error", "An Error occured!");
+                
+            }finally {
+                await _rep.DisconnectAsync();
+            }
+            return RedirectToAction("index");
+        }
+
 
         [HttpPost]
         public async Task<IActionResult> Login(User userData) {
@@ -73,8 +114,14 @@ namespace SWP_Tesla_Website.Controllers {
 
             if (userData == null) 
                 return View();
+            
 
             ValidateLoginData(userData);
+
+            if (userData.Username.Contains("@")) {
+                userData.Email = userData.Username;
+                userData.Username = null;
+            }
 
             if (ModelState.IsValid) {
                 User validUser;
@@ -230,6 +277,20 @@ namespace SWP_Tesla_Website.Controllers {
             }finally {
                 await _rep.DisconnectAsync();
             }
+        }
+
+        public bool hasAccess(Access needed) {
+            Access access = getCurrentAccess();
+
+            return access.hasAccess(needed);
+        }
+
+        public Access getCurrentAccess() {
+            string user_string = HttpContext.Session.GetString("user");
+            if (user_string == null || user_string.Length == 0)
+                return Access.UNAUTHORIZED;
+
+            return SWP_Tesla_Website.Models.User.getObject(user_string).access;
         }
     }
 
