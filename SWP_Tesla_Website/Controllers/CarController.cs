@@ -16,8 +16,11 @@ namespace SWP_Tesla_Website.Controllers {
             return View();
         }
 
-        public IActionResult ModelS() {
-            return View();
+        public async Task<IActionResult> ModelSAsync() {
+            string modell = "Model S | Standard Range";
+            Car car;
+            car = await GetByModelAsync(modell);
+            return View(car);
         }
 
         public async Task<IActionResult> Model3Async() {
@@ -28,12 +31,18 @@ namespace SWP_Tesla_Website.Controllers {
 
         }
 
-        public IActionResult ModelX() {
-            return View();
+        public async Task<IActionResult> ModelXAsync() {
+            string modell = "Model X | Standard Range";
+            Car car;
+            car = await GetByModelAsync(modell);
+            return View(car);
         }
 
-        public IActionResult ModelY() {
-            return View();
+        public async Task<IActionResult> ModelYAsync() {
+            string modell = "Model Y | Long Range";
+            Car car;
+            car = await GetByModelAsync(modell);
+            return View(car);
         }
 
         public IActionResult SolarRoof() {
