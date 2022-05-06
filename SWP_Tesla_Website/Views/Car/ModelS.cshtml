@@ -1,6 +1,10 @@
-﻿@{
+﻿@model Car
+
+@{
     ViewData["Title"] = "Model S";
 }
-
+<link rel="stylesheet" href="~/css/cars.css" />
 
 <img src="~/multimedia/pictures/Desktop-Model-S.png" class="primary-background-image" />
+
+<partial name="CarData" data="Car" />
