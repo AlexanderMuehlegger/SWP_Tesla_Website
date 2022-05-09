@@ -32,7 +32,14 @@ INSERT INTO user VALUES(null, "simon@tsn.at", "simon", sha2('12345678', 256), DE
 INSERT INTO user VALUES(null, "marcel@tsn.at", "marcel", sha2('12345678', 256), DEFAULT);
 INSERT INTO user VALUES(null, "melih@tsn.at", "melih", sha2('12345678', 256), -1);
 INSERT INTO user VALUES(null, "alex@tsn.at", "alex", sha2('12345678', 256), 2);
-INSERT INTO user VALUES(null, "domdom@tsn.at", "domdom", sha2('12345678', 256), -2);
+INSERT INTO user VALUES(null, "dodmdom@tsn.at", "domdom", sha2('12345678', 256), -2);
+INSERT INTO user VALUES(null, "dofdmi@tsn.at", "dodfmi", sha2('12345678', 256), DEFAULT);
+INSERT INTO user VALUES(null, "simdfon@tsn.at", "simofdn", sha2('12345678', 256), DEFAULT);
+INSERT INTO user VALUES(null, "marcdfel@tsn.at", "mardfcel", sha2('12345678', 256), DEFAULT);
+INSERT INTO user VALUES(null, "meladih@tsn.at", "melfdih", sha2('12345678', 256), -1);
+INSERT INTO user VALUES(null, "aldfex@tsn.at", "aledfx", sha2('12345678', 256), 2);
+INSERT INTO user VALUES(null, "domfddom@tsn.at", "dafomdom", sha2('12345678', 256), -2);
+
 
 
 INSERT INTO car VALUES(null, "Model S | Standard Range", 541, 3.2, 100000.0, 652, 250);

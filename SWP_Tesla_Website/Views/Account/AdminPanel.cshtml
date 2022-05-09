@@ -3,7 +3,7 @@
 
 <link rel="stylesheet" href="~/css/adminpanel.css">
 
-<div class="role-module">
+@*<div class="role-module">
         <div class="role-container">
             <div class="change-option">
                 <input type="radio" name="type" id="admin_change">
@@ -17,24 +17,25 @@
                 <input type="radio" name="type" id="user_change">
                 <label for="user_change">User</label>
             </div>
-            <button class="exit-changer">Exit</button>
+            <button id="close-role-module" type="button" class="exit-changer"></button>
         </div>
-    </div>
+    </div>*@
 <div class="wrapper">
     <form class="logout-form" asp-action="logout" asp-controller="account" method="post">
         <button class="logout-btn"></button>
     </form>
 
-    <div class="select-box">
-        <div class="selected">
-            No Filter
+    <div class="controle-panel">
+        <div class="select-box">
+            <div class="selected">
+                No Filter
+            </div>
+            <div class="option-container"></div>
         </div>
-        <div class="option-container"></div>
-
-    </div>
-    <div class="mode-switcher">
-        <button class="car-mode-switch">Autos</button>
-        <button class="user-mode-switch">User</button>
+        <div class="mode-switcher">
+            <button class="car-mode-switch">Autos</button>
+            <button class="user-mode-switch">User</button>
+        </div>
     </div>
 
     <div class="user-container" style="display: none;">
@@ -67,9 +68,9 @@
                                             </form>
                                         }
                                     </td>
-                                    <td>
+                                    @*<td>
                                         <button class="role-changer-btn" type="button" value="@user.ID">Change Role</button>
-                                    </td>
+                                    </td>*@
                                 </tr>
                                 }
                             </tbody>
@@ -107,6 +108,7 @@
 <script>
     const state_div = document.querySelector("#site-state")
     const role_changers = document.querySelectorAll(".role-changer-btn")
+    const role_module = document.querySelector(".role-module")
     function getSession(){
         
         var state = state_div.innerText;
@@ -124,16 +126,31 @@
 
     getSession()
 
-    document.querySelector(".car-mode-switch").addEventListener('click', () => {
+    document.querySelector(".car-mode-switch")?.addEventListener('click', () => {
         if(state_div.innerText == "user")
             changeState()        
     })
 
-    document.querySelector(".user-mode-switch").addEventListener('click', () => {
+    document.querySelector(".user-mode-switch")?.addEventListener('click', () => {
         if(state_div.innerText == "car")
             changeState()
     })
 
+    document.querySelectorAll(".role-changer-btn")?.forEach(element => {
+        element.addEventListener('click', () => {
+        if(role_module.style.display == "none")
+            role_module.style.display = ""
+        else
+            role_module.style.display = "none"
+        })
+    })
+
+    document.querySelector("#close-role-module")?.addEventListener('click', () => {
+        if(role_module.style.display == "none")
+            role_module.style.display = ""
+        else
+            role_module.style.display = "none"
+    })
     role_changers.forEach(element => {
         element.addEventListener('click', () => {
 
