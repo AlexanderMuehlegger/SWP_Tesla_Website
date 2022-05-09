@@ -39,6 +39,20 @@ namespace SWP_Tesla_Website.Models {
             return this.Model.Split("|")[0].Trim();
         }
 
+        public Model getArticleID() {
+            switch (this.Model) {
+                case "Model S | Standard Range": return Models.Model.Model_S_SR;
+                case "Model S | Plaid": return Models.Model.Model_S_Plaid;
+                case "Model X | Standard Range": return Models.Model.Model_X_SR;
+                case "Model X | Plaid": return Models.Model.Model_X_Plaid;
+                case "Model Y | Long range": return Models.Model.Model_Y_LR;
+                case "Model Y | Performance": return Models.Model.Model_Y_PR;
+                case "Model 3 | Standard Range": return Models.Model.Model_3_SR;
+                case "Model 3 | Long Range": return Models.Model.Model_3_LR;
+                case "Model 3 | Performance": return Models.Model.Model_3_PR;
+                default: return Models.Model.UNKNOWN;
+            }
+        }
 
         public static Car getObject(string jsonObject) {
             JObject json = JObject.Parse(jsonObject);

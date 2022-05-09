@@ -1,0 +1,22 @@
+﻿body {
+}
+
+
+.display-car-order{
+    position:absolute;
+    width:100%;
+    color:black;
+
+}
+
+.display-car-look{
+    width:80%;
+    overflow:hidden;
+    position:fixed;
+
+}
+
+.display-order-details{
+    width:20%;
+    overflow:auto;
+}
