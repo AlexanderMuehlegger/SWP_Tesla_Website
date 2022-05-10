@@ -1,10 +1,10 @@
-﻿@model Car
+﻿@model List<Car>
 
 <div class="display-car-order">
     <div class="display-car-look">
-        <span class="text-prop">Hallo</span>
+        <span class="text-prop">@Model[0].Max_speed</span>
     </div>
     <div class="display-car-data">
-        <span class="text-prop">Halihalo</span>
+        <span class="text-prop">@Model[1].Max_speed</span>
     </div>
 </div>

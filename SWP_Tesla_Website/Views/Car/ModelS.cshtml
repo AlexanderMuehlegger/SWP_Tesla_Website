@@ -1,4 +1,4 @@
-﻿@model Car
+﻿@model List<Car>
 
 @{
     ViewData["Title"] = "Model S";
@@ -7,4 +7,4 @@
 
 <img src="~/multimedia/pictures/Desktop-Model-S.png" class="primary-background-image" />
 
-<partial name="CarData" data="Car" />
+<partial name="CarData" data="List<Car>" />
