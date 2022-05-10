@@ -21,19 +21,19 @@ create table car (
     price decimal(15,2) not null,
     max_range int not null,
     max_speed int not null,
-    article_id int not null,
+    article_id int not null UNIQUE,
     PRIMARY KEY (car_id)
 );
 
 create table orders (
     order_id int auto_increment,
     saldo decimal(15,2) not null,
-    order_status int not null,
+    order_status int not null default 0,
     article_id int,
     user_id int,
     PRIMARY KEY (order_id),
-    FOREIGN KEY (user_id) REFERENCES user (user_id),
-    FOREIGN KEY (article_id) REFERENCES car (article_id)
+    FOREIGN KEY (article_id) REFERENCES car(article_id),
+    FOREIGN KEY (user_id) REFERENCES user(user_id)
 );
 
 INSERT INTO user VALUES(null, "amuehlegger@tsn.at", "alexander", sha2('12345678', 256), 3);
@@ -53,7 +53,6 @@ INSERT INTO user VALUES(null, "aldfex@tsn.at", "aledfx", sha2('12345678', 256), 
 INSERT INTO user VALUES(null, "domfddom@tsn.at", "dafomdom", sha2('12345678', 256), -2);
 
 
-
 INSERT INTO car VALUES(null, "Model S | Standard Range", 541, 3.2, 100000.0, 652, 250, 1);
 INSERT INTO car VALUES(null, "Model S | Plaid", 1020, 2.1, 125000.0, 637, 322, 2);
 
@@ -66,3 +65,8 @@ INSERT INTO car VALUES(null, "Model Y | Performance", 513, 3.7, 64000.0, 514, 25
 INSERT INTO car VALUES(null, "Model 3 | Standard Range", 325, 6.1, 55000.0, 491, 225, 7);
 INSERT INTO car VALUES(null, "Model 3 | Long Range", 440, 4.4, 59000.0, 602, 233, 8);
 INSERT INTO car VALUES(null, "Model 3 | Performance", 510, 3.3, 65000.0, 547, 261, 9);
+
+INSERT INTO orders VALUES(null, 45000.00, DEFAULT, 1, 2);
+INSERT INTO orders VALUES(null, 77000.00, 1, 4, 2);
+INSERT INTO orders VALUES(null, 42300.00, 2, 7, 2);
+INSERT INTO orders VALUES(null, 145000.00, DEFAULT, 2, 2);

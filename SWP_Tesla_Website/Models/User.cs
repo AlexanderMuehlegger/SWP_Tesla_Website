@@ -17,6 +17,7 @@ namespace SWP_Tesla_Website.Models {
         public string getJson() {
             string json = JsonConvert.SerializeObject(new {
                 _user = new User() {
+                    ID = ID,
                     Username = this.Username,
                     Email = this.Email,
                     Password = "HIDDEN",
@@ -30,6 +31,7 @@ namespace SWP_Tesla_Website.Models {
             JObject json  = JObject.Parse(jsonObject);
 
             return new User() {
+                ID = int.Parse(json["_user"]["ID"].ToString()),
                 Username = json["_user"]["Username"].ToString(),
                 Email = json["_user"]["Email"].ToString(),
                 access = (Access)int.Parse(json["_user"]["access"].ToString()),

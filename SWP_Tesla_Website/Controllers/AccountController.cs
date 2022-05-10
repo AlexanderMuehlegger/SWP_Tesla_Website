@@ -14,6 +14,7 @@ namespace SWP_Tesla_Website.Controllers {
 
         private IRepositoryUser _rep = new RepositoryUserDB();
         private IRepositoryCar _rep_car = new RepositoryCarDB();
+        private IRepositoryOrder _rep_order = new RepositoryOrderDB();
 
 
         [HttpGet]
@@ -22,8 +23,7 @@ namespace SWP_Tesla_Website.Controllers {
             if (user_string == null || user_string.Length == 0)
                 return RedirectToAction("Login");
 
-            if (hasAccess(Access.ADMIN))
-                return RedirectToAction("AdminPanel");
+            
 
             return View();
         }
@@ -104,6 +104,17 @@ namespace SWP_Tesla_Website.Controllers {
                 await _rep.DisconnectAsync();
             }
             return RedirectToAction("index");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> orders() {
+            if (!hasAccess(Access.USER))
+                return RedirectToAction("login");
+            string user_string = HttpContext.Session.GetString("user");
+            int user_id = SWP_Tesla_Website.Models.User.getObject(user_string).ID;
+            List<Order> orders = await _rep_order.GetAllOrders(user_id);
+
+            return View(orders);
         }
 
 

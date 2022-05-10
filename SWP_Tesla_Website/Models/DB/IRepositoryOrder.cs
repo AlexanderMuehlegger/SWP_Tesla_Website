@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace SWP_Tesla_Website.Models.DB
 {
@@ -6,8 +7,9 @@ namespace SWP_Tesla_Website.Models.DB
         public Task OpenConnection();
         public Task CloseConnection();
         public Task<bool> AddOrder(Order order);
-        public Task<bool> CancelOrder(int order_id);
+        public Task<bool> ChangeStatus(int order_id, OrderStatus status);
         public Task<bool> PayOrder(Order order);
+        public Task<List<Order>> GetAllOrders(int user_id);
 
     }
 }

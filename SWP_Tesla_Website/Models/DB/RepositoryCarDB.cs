@@ -8,7 +8,7 @@ namespace SWP_Tesla_Website.Models.DB {
     public class RepositoryCarDB : IRepositoryCar {
 
         public DbConnection _conn;
-        public string DbConnection_string = "server=localhost;database=tesla;uid=root;password=''";
+        public string DbConnection_string = "server=localhost;database=tesla;uid=root; password=''";
 
         public async Task ConnectAsync() {
             if (this._conn == null) {
