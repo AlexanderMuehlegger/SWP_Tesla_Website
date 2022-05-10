@@ -24,10 +24,17 @@ namespace SWP_Tesla_Website.Controllers {
         }
 
         public async Task<IActionResult> Model3Async() {
-            string modell = "Model 3 | Standard Range";
-            Car car;
-            car = await GetByModelAsync(modell);
-            return View(car);
+            //string modell = "Model 3 | Standard Range";
+            //Car car;
+            //car = await GetByModelAsync(modell);
+            //return View(car);
+            List<Car> carsAll = await GetCarListAsync();
+            List<Car> carsNedded = new List<Car>();
+            foreach(Car car in carsAll) {
+                if(car.Model.Contains("Model 3")) {
+                    carsNedded.Add(car);
+                }
+            }
 
         }
 
@@ -51,6 +58,13 @@ namespace SWP_Tesla_Website.Controllers {
 
         public IActionResult SolarPannel() {
             return View();
+        }
+
+        public async Task<IActionResult> CarOrder() {
+            string modell = "Model 3 | Standard Range";
+            Car car;
+            car = await GetByModelAsync(modell);
+            return View(car);
         }
 
         public async Task<List<Car>> GetCarListAsync() {
