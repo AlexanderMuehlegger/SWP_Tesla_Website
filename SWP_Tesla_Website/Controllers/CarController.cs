@@ -23,20 +23,20 @@ namespace SWP_Tesla_Website.Controllers {
             return View(car);
         }
 
-        public async Task<IActionResult> Model3Async() {
-            //string modell = "Model 3 | Standard Range";
-            //Car car;
-            //car = await GetByModelAsync(modell);
-            //return View(car);
-            List<Car> carsAll = await GetCarListAsync();
-            List<Car> carsNedded = new List<Car>();
-            foreach(Car car in carsAll) {
-                if(car.Model.Contains("Model 3")) {
-                    carsNedded.Add(car);
-                }
-            }
+        //public async Task<IActionResult> Model3Async() {
+        //    //string modell = "Model 3 | Standard Range";
+        //    //Car car;
+        //    //car = await GetByModelAsync(modell);
+        //    //return View(car);
+        //    List<Car> carsAll = await GetCarListAsync();
+        //    List<Car> carsNedded = new List<Car>();
+        //    foreach(Car car in carsAll) {
+        //        if(car.Model.Contains("Model 3")) {
+        //            carsNedded.Add(car);
+        //        }
+        //    }
 
-        }
+        //}
 
         public async Task<IActionResult> ModelXAsync() {
             string modell = "Model X | Standard Range";

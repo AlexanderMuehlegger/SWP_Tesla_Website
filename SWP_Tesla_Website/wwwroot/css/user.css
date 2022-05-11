@@ -8,6 +8,10 @@
     position: absolute;
 }
 
+.primary-content {
+    display: relative;
+}
+
 .wrapper {
     margin-top: 4rem;
 }
@@ -32,4 +36,12 @@
 .user-btn:hover {
     transform: scale(1.05);
     box-shadow: 1px 2px 5px 1px rgba(0,0,0,0.25)
+}
+
+.orders {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
