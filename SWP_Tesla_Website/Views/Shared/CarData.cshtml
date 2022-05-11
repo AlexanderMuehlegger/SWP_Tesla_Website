@@ -1,31 +1,37 @@
 ﻿@*@model List<Car>*@
 @model Car
 
+
 <div class="display-car-data">
     <div class="car-data">
         <div class="props">
-            <span class="text-prop">@Model.Max_range km</span>
+            <span class="text-prop">@Model[0].Max_range km</span>
             <span class="prop">Range</span>
         </div>
         <div class="props">
-            <span class="text-prop">@Model.Max_speed km/h</span>
+            <span class="text-prop">@Model[0].Max_speed km/h</span>
             <span class="prop">Reichweite</span>
         </div>
         <div class="props">
-            <span class="text-prop">@Model.Acceleration</span>
+            <span class="text-prop">@Model[0].Acceleration</span>
             <span class="prop">0-100 km/h</span>
         </div>
         <div class="props">
-            <span class="text-prop">@Model.Ps</span>
+            <span class="text-prop">@Model[0].Ps</span>
             <span class="prop">PS</span>
         </div>
         <div class="props">
-            <span class="text-prop">@Model.Price.ToString().Split(",")[0] €</span>
+            <span class="text-prop">@Model[0].Price.ToString().Split(",")[0] €</span>
             <span class="prop">Price</span>
         </div>
         <div class="props">
             <div class="btn-container">
+<<<<<<< HEAD
                 <button class="btn" onclick="window.location.href='/Car/CarOrder/@Model.Model'"><p class="btn-content">ORDER NOW</p></button>
+=======
+                <!--Daten wieder zurück an Controller schicken, wie?-->
+                <button class="btn" onclick="window.location.href='/Car/CarOrder/<List<Car>>'" data="List<Car>"><p class="btn-content">ORDER NOW</p></button>
+>>>>>>> 5ccd90338663728bd54f3d0eb0df1f7f92c983ca
             </div>
         </div>
     </div>

@@ -17,12 +17,17 @@ namespace SWP_Tesla_Website.Controllers {
         }
 
         public async Task<IActionResult> ModelSAsync() {
-            string modell = "Model S | Standard Range";
-            Car car;
-            car = await GetByModelAsync(modell);
-            return View(car);
+            List<Car> carsAll = await GetCarListAsync();
+            List<Car> carsNedded = new List<Car>();
+            foreach (Car car in carsAll) {
+                if (car.Model.Contains("Model S")) {
+                    carsNedded.Add(car);
+                }
+            }
+            return View(carsNedded);
         }
 
+<<<<<<< HEAD
         //public async Task<IActionResult> Model3Async() {
         //    //string modell = "Model 3 | Standard Range";
         //    //Car car;
@@ -37,19 +42,40 @@ namespace SWP_Tesla_Website.Controllers {
         //    }
 
         //}
+=======
+        public async Task<IActionResult> Model3Async() {
+            List<Car> carsAll = await GetCarListAsync();
+            List<Car> carsNedded = new List<Car>();
+            foreach(Car car in carsAll) {
+                if(car.Model.Contains("Model 3")) {
+                    carsNedded.Add(car);
+                }
+            }
+            return View(carsNedded);
+
+        }
+>>>>>>> 5ccd90338663728bd54f3d0eb0df1f7f92c983ca
 
         public async Task<IActionResult> ModelXAsync() {
-            string modell = "Model X | Standard Range";
-            Car car;
-            car = await GetByModelAsync(modell);
-            return View(car);
+            List<Car> carsAll = await GetCarListAsync();
+            List<Car> carsNedded = new List<Car>();
+            foreach (Car car in carsAll) {
+                if (car.Model.Contains("Model X")) {
+                    carsNedded.Add(car);
+                }
+            }
+            return View(carsNedded);
         }
 
         public async Task<IActionResult> ModelYAsync() {
-            string modell = "Model Y | Long Range";
-            Car car;
-            car = await GetByModelAsync(modell);
-            return View(car);
+            List<Car> carsAll = await GetCarListAsync();
+            List<Car> carsNedded = new List<Car>();
+            foreach (Car car in carsAll) {
+                if (car.Model.Contains("Model Y")) {
+                    carsNedded.Add(car);
+                }
+            }
+            return View(carsNedded);
         }
 
         public IActionResult SolarRoof() {
@@ -61,10 +87,8 @@ namespace SWP_Tesla_Website.Controllers {
         }
 
         public async Task<IActionResult> CarOrder() {
-            string modell = "Model 3 | Standard Range";
-            Car car;
-            car = await GetByModelAsync(modell);
-            return View(car);
+            List<Car> neededCars = await GetCarListAsync();//Nur damit kein fehler ist. TODO: Daten von vorheriger View anzeigen
+            return View(neededCars);
         }
 
         public async Task<List<Car>> GetCarListAsync() {
