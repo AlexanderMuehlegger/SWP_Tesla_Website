@@ -26,13 +26,19 @@
         </div>
         <div class="props">
             <div class="btn-container">
-<<<<<<< HEAD
-                <button class="btn" onclick="window.location.href='/Car/CarOrder/@Model.Model'"><p class="btn-content">ORDER NOW</p></button>
-=======
-                <!--Daten wieder zurück an Controller schicken, wie?-->
-                <button class="btn" onclick="window.location.href='/Car/CarOrder/<List<Car>>'" data="List<Car>"><p class="btn-content">ORDER NOW</p></button>
->>>>>>> 5ccd90338663728bd54f3d0eb0df1f7f92c983ca
-            </div>
+                <!--TODO: model mittels form an controller schicken und dort mit ajax abfragen-->
+                @using (Html.BeginForm("CarOrder", "Car", FormMethod.Post)) {
+                    
+                        <input id="model0" name="model0" type="hidden" value="@Model[0]" />
+                        <input id="model1" name="model1" type="hidden" value="@Model[1]" />
+                        <input id="model2" name="model2" type="hidden" value="@Model[2]" />
+                        <button class="btn" onclick="window.location.href='/Car/CarOrder/'" type="submit"><p class="btn-content">ORDER NOW</p></button>
+                        <!--TODO: find out how to send a whole list, receive it in controller and send it to CarOrder-->
+                               }
+                               
+                        
+                        @*<button class="btn" onclick="window.location.href='/Car/CarOrder/'" type="submit"><p class="btn-content">ORDER NOW</p></button>*@
+                    </div>
         </div>
     </div>
 </div>
