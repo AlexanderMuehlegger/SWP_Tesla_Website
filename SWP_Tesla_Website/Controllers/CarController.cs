@@ -71,9 +71,10 @@ namespace SWP_Tesla_Website.Controllers {
 
         [HttpPost]
         public IActionResult CarOrder(Car car) {
-
+            //get whole list to send to new view
             List<Car> neededCars = new List<Car>();
-            neededCars[0] = 
+            
+            return View(neededCars);
         }
 
         public async Task<List<Car>> GetCarListAsync() {
