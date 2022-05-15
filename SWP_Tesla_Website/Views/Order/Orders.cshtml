@@ -5,12 +5,12 @@
 <div class="orders">
 @if(Model != null){
 
-	<table>
+	<div class="order-card">
+		<table>
 		<thead>
 			<tr>
 				<th>Order ID</th>
 				<th>Articel ID</th>
-				<th>Price</th>
 				<th>Unpaid</th>
 				<th>Status</th>
 				<th>Action</th>
@@ -22,18 +22,36 @@
 				<tr>
 					<td>@order.ID</td>
 					<td>@order.article_id</td>
-					<td>8998789</td>
 					<td>@order.Saldo</td>
 					<td>@order.status.getStatusName()</td>
 					<td>
 						@if(@order.status == OrderStatus.open) {
-							<button>Pay</button>
-							<button>Cancel</button>
+							<button class="user-btn pay" onclick="payOrder(@order.ID)">Pay</button>
+							<button class="user-btn cancel" onclick="cancelOrder(@order.ID)">Cancel</button>
+						}else {
+							<p>-</p>		
 						}
 					</td>
 				</tr>
 			}
+			@if(Model.Count() == 0){
+				<tr>
+					<td>-</td>
+					<td>-</td>
+					<td>-</td>
+					<td>-</td>
+					<td>-</td>
+				</tr>
+			}
 		</tbody>
 	</table>
+	</div>
+	<script>
+		function payOrder(id){
+			let url = "/order/payorder/" + id
+			console.log(url)
+			fetch(url, "GET")
+		}
+	</script>
 }
 </div>

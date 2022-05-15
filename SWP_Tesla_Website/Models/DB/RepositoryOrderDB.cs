@@ -94,6 +94,7 @@ namespace SWP_Tesla_Website.Models.DB {
         public async Task<bool> PayOrder(Order order) {
             try {
                 await this.OpenConnection();
+
                 DbCommand cmd = this._conn.CreateCommand();
                 cmd.CommandText = "Select * from orders where order_id = @order_id";
 
@@ -113,7 +114,7 @@ namespace SWP_Tesla_Website.Models.DB {
                 }
                 if (unpaid == null)
                     return false;
-                decimal saldo = unpaid.Saldo - order.Saldo;
+                decimal saldo = unpaid.Saldo - order.Pay;
 
                 if (saldo < 0)
                     return false;
@@ -160,7 +161,29 @@ namespace SWP_Tesla_Website.Models.DB {
                 await this.CloseConnection();
             }
         }
+        public async Task<Order> GetOrder(int order_id) {
+            try {
+                await OpenConnection();
+                DbCommand cmd = this._conn.CreateCommand();
+                cmd.CommandText = "SELECT * FROM orders WHERE order_id=@order_id";
 
+                DbParameter id_para = cmd.CreateParameter();
+                id_para.ParameterName = "order_id";
+                id_para.Value = order_id;
+                cmd.Parameters.Add(id_para);
+
+                using(DbDataReader reader = await cmd.ExecuteReaderAsync()) {
+                    if(reader.Read()) {
+                        return getOrderData(reader);
+                    }
+                }
+            }catch(Exception e) {
+                return null;
+            }finally {
+                await CloseConnection();
+            }
+            return null;
+        }
         private Order getOrderData(DbDataReader reader) {
             return new Order() {
                 ID = int.Parse(reader["order_id"].ToString()),

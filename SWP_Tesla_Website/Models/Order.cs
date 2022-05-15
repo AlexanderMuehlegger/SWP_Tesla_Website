@@ -8,6 +8,7 @@ namespace SWP_Tesla_Website.Models {
         public int user_id { get; set; }
         public int article_id { get; set; }
         public decimal Saldo { get; set; }
+        public decimal Pay { get; set; }
         public OrderStatus status { get; set; }
 
         public string getJson() {

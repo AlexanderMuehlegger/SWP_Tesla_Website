@@ -11,5 +11,7 @@ namespace SWP_Tesla_Website.Models.DB
         public Task<bool> PayOrder(Order order);
         public Task<List<Order>> GetAllOrders(int user_id);
 
+        public Task<Order> GetOrder(int order_id);
+
     }
 }

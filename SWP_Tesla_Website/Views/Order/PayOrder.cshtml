@@ -1,0 +1,8 @@
+﻿@model Order
+
+
+<form class="order-form" asp-action="PayOrder" asp-controller="order" method="post">
+	<label asp-for="Pay">The Amount to pay: @Model.Saldo</label>
+	<input asp-for="Pay" type="number" placeholder="Enter Amount to pay"/>
+	<button>Pay</button>
+</form>

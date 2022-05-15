@@ -1,5 +1,5 @@
-﻿@*@model List<Car>*@
-@model Car
+﻿@model List<Car>
+
 
 
 <div class="display-car-data">
@@ -26,12 +26,9 @@
         </div>
         <div class="props">
             <div class="btn-container">
-<<<<<<< HEAD
-                <button class="btn" onclick="window.location.href='/Car/CarOrder/@Model.Model'"><p class="btn-content">ORDER NOW</p></button>
-=======
                 <!--Daten wieder zurück an Controller schicken, wie?-->
                 <button class="btn" onclick="window.location.href='/Car/CarOrder/<List<Car>>'" data="List<Car>"><p class="btn-content">ORDER NOW</p></button>
->>>>>>> 5ccd90338663728bd54f3d0eb0df1f7f92c983ca
+
             </div>
         </div>
     </div>

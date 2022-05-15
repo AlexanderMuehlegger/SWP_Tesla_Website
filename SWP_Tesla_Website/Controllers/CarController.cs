@@ -27,22 +27,6 @@ namespace SWP_Tesla_Website.Controllers {
             return View(carsNedded);
         }
 
-<<<<<<< HEAD
-        //public async Task<IActionResult> Model3Async() {
-        //    //string modell = "Model 3 | Standard Range";
-        //    //Car car;
-        //    //car = await GetByModelAsync(modell);
-        //    //return View(car);
-        //    List<Car> carsAll = await GetCarListAsync();
-        //    List<Car> carsNedded = new List<Car>();
-        //    foreach(Car car in carsAll) {
-        //        if(car.Model.Contains("Model 3")) {
-        //            carsNedded.Add(car);
-        //        }
-        //    }
-
-        //}
-=======
         public async Task<IActionResult> Model3Async() {
             List<Car> carsAll = await GetCarListAsync();
             List<Car> carsNedded = new List<Car>();
@@ -54,7 +38,6 @@ namespace SWP_Tesla_Website.Controllers {
             return View(carsNedded);
 
         }
->>>>>>> 5ccd90338663728bd54f3d0eb0df1f7f92c983ca
 
         public async Task<IActionResult> ModelXAsync() {
             List<Car> carsAll = await GetCarListAsync();

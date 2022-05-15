@@ -361,3 +361,7 @@ body {
 .logout-btn:focus {
     outline: none;
 }
+
+.order-form {
+    margin-top: 50%;
+}
