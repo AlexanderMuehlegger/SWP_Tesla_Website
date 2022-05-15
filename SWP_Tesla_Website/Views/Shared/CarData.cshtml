@@ -1,11 +1,15 @@
 ﻿@model List<Car>
+<<<<<<< HEAD
 
+=======
+@*@model Car*@
+>>>>>>> ae6bdc016b66dc354d3def2ab6f317b5b532778b
 
 
 <div class="display-car-data">
     <div class="car-data">
         <div class="props">
-            <span class="text-prop">@Model[0].Max_range km</span>
+            <span class="text-prop">@Model[0].Max_range km</span><!--Abfrage ob STandart Range, oder wenn nicht andere Verson-->
             <span class="prop">Range</span>
         </div>
         <div class="props">
@@ -26,10 +30,26 @@
         </div>
         <div class="props">
             <div class="btn-container">
+<<<<<<< HEAD
                 <!--Daten wieder zurück an Controller schicken, wie?-->
                 <button class="btn" onclick="window.location.href='/Car/CarOrder/<List<Car>>'" data="List<Car>"><p class="btn-content">ORDER NOW</p></button>
 
             </div>
+=======
+                <!--TODO: model mittels form an controller schicken und dort mit ajax abfragen-->
+                @using (Html.BeginForm("CarOrder", "Car", FormMethod.Post)) {
+                    
+                        <input id="model0" name="model0" type="hidden" value="@Model[0]" />
+                        <input id="model1" name="model1" type="hidden" value="@Model[1]" />
+                        <input id="model2" name="model2" type="hidden" value="@Model[2]" />
+                        <button class="btn" onclick="window.location.href='/Car/CarOrder/'" type="submit"><p class="btn-content">ORDER NOW</p></button>
+                        <!--TODO: find out how to send a whole list, receive it in controller and send it to CarOrder-->
+                               }
+                               
+                        
+                        @*<button class="btn" onclick="window.location.href='/Car/CarOrder/'" type="submit"><p class="btn-content">ORDER NOW</p></button>*@
+                    </div>
+>>>>>>> ae6bdc016b66dc354d3def2ab6f317b5b532778b
         </div>
     </div>
 </div>

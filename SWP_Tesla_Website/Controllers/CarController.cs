@@ -69,8 +69,11 @@ namespace SWP_Tesla_Website.Controllers {
             return View();
         }
 
-        public async Task<IActionResult> CarOrder() {
-            List<Car> neededCars = await GetCarListAsync();//Nur damit kein fehler ist. TODO: Daten von vorheriger View anzeigen
+        [HttpPost]
+        public IActionResult CarOrder(Car car) {
+            //get whole list to send to new view
+            List<Car> neededCars = new List<Car>();
+            
             return View(neededCars);
         }
 
