@@ -6,18 +6,22 @@
     position:absolute;
     width:100%;
     color:black;
-
+    bottom:0;
+    display:flex;
 }
 
 .display-car-look{
-    width:80%;
+    width:70%;
+    height:100%;
+    left:0;
     overflow:hidden;
     position:fixed;
 
 }
 
 .display-order-details{
-    width:20%;
+    width:30%;
+    height:100%;
     overflow:auto;
 }
 
