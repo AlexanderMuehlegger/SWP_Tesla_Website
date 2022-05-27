@@ -23,8 +23,24 @@
     width:30%;
     height:100%;
     overflow:auto;
+    left:70%;
 }
 
 .text-prop{
     color:black;
+}
+
+.details-card {
+    position: relative;
+    width: 400px;
+    min-height: 100%;
+    height: max-content;
+    border-radius: 15px;
+    box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.5);
+    overflow: hidden;
+    text-align: center;
+    transform: scale(clamp(.75, .80, 1));
+    margin-bottom: -25%;
+    display: flex;
+    flex-direction: column;
 }
