@@ -1,3 +1,7 @@
 ﻿@model List<Car>
 
-<partial name="customCarOrder" data="List<Car>" />
+<h1>Please buy you idiot</h1>
+@foreach(Car car in Model) {
+<span>car.Model</span>
+}
+<partial name="customCarOrder" model="Model" /> 

@@ -11,53 +11,30 @@ using System.Data.Common;
 namespace SWP_Tesla_Website.Controllers {
     public class CarController : Controller {
 
+        private static string[] allowedModels = { "Model S", "Model 3", "Model X", "Model Y" };
+
         private IRepositoryCar _rep_car = new RepositoryCarDB();
         public IActionResult Index() {
             return View();
         }
 
         public async Task<IActionResult> ModelSAsync() {
-            List<Car> carsAll = await GetCarListAsync();
-            List<Car> carsNedded = new List<Car>();
-            foreach (Car car in carsAll) {
-                if (car.Model.Contains("Model S")) {
-                    carsNedded.Add(car);
-                }
-            }
+            List<Car> carsNedded = await GetCars("Model S");
             return View(carsNedded);
         }
 
         public async Task<IActionResult> Model3Async() {
-            List<Car> carsAll = await GetCarListAsync();
-            List<Car> carsNedded = new List<Car>();
-            foreach(Car car in carsAll) {
-                if(car.Model.Contains("Model 3")) {
-                    carsNedded.Add(car);
-                }
-            }
+            List<Car> carsNedded = await GetCars("Model 3");
             return View(carsNedded);
-
         }
 
         public async Task<IActionResult> ModelXAsync() {
-            List<Car> carsAll = await GetCarListAsync();
-            List<Car> carsNedded = new List<Car>();
-            foreach (Car car in carsAll) {
-                if (car.Model.Contains("Model X")) {
-                    carsNedded.Add(car);
-                }
-            }
+            List<Car> carsNedded = await GetCars("Model X");
             return View(carsNedded);
         }
 
         public async Task<IActionResult> ModelYAsync() {
-            List<Car> carsAll = await GetCarListAsync();
-            List<Car> carsNedded = new List<Car>();
-            foreach (Car car in carsAll) {
-                if (car.Model.Contains("Model Y")) {
-                    carsNedded.Add(car);
-                }
-            }
+            List<Car> carsNedded = await GetCars("Model Y");
             return View(carsNedded);
         }
 
@@ -69,12 +46,12 @@ namespace SWP_Tesla_Website.Controllers {
             return View();
         }
 
-        [HttpPost]
-        public IActionResult CarOrder(Car car) {
+        [HttpGet]
+        public async Task<IActionResult> CarOrder(string model) {
             //get whole list to send to new view
-            List<Car> neededCars = new List<Car>();
-            
-            return View(neededCars);
+            if (!allowedModels.Contains(model))
+                return RedirectToAction("Index", "Home");
+            return View(await GetCars(model));
         }
 
         public async Task<List<Car>> GetCarListAsync() {
@@ -110,6 +87,17 @@ namespace SWP_Tesla_Website.Controllers {
             } finally {
                 await _rep_car.DisconnectAsync();
             }
+        }
+
+        public async Task<List<Car>> GetCars(string needed) {
+            List<Car> carsAll = await GetCarListAsync();
+            List<Car> carsNedded = new List<Car>();
+            foreach (Car car in carsAll) {
+                if (car.Model.Contains(needed)) {
+                    carsNedded.Add(car);
+                }
+            }
+            return carsNedded;
         }
 
 
