@@ -36,6 +36,19 @@ namespace SWP_Tesla_Website.Controllers {
             return RedirectToAction("orders");
         }
 
+        public async Task<IActionResult> CancelOrder (int id) {
+            if (!hasAccess(Access.USER))
+                return RedirectToAction("login", "account");
+            List<Order> orders = await _repOrder.GetAllOrders(getCurrentUser().ID);
+
+            foreach(Order ord in orders) {
+                if(ord.ID == id) {
+                    await _repOrder.ChangeStatus(id, OrderStatus.canceled);
+                }
+            }
+            return RedirectToAction("index");
+        }
+
         public User getCurrentUser() {
             string raw = HttpContext.Session.GetString("user");
             return SWP_Tesla_Website.Models.User.getObject(raw);
@@ -53,5 +66,6 @@ namespace SWP_Tesla_Website.Controllers {
 
             return SWP_Tesla_Website.Models.User.getObject(user_string).access;
         }
+
     }
 }

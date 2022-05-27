@@ -1,4 +1,4 @@
-use d2r4kCtcuy;
+use NbCTUONEyW;
 
 create table user (
     user_id int auto_increment,

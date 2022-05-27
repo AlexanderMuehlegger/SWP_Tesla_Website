@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace SWP_Tesla_Website.Models.DB {
     public class RepositoryOrderDB : IRepositoryOrder {
 
-        public string ConnectionString = "server=localhost;database=tesla;uid=root; password=''";
+        public string ConnectionString = DB_DATA.connectionStr;
         public DbConnection _conn;
         public async Task<bool> AddOrder(Order order) {
             try {
@@ -45,7 +45,7 @@ namespace SWP_Tesla_Website.Models.DB {
                 await OpenConnection();
 
                 DbCommand cmd = this._conn.CreateCommand();
-                cmd.CommandText = "UPDATE orders order_status = @order_stat WHERE order_id = @order_id";
+                cmd.CommandText = "UPDATE orders SET order_status = @order_stat WHERE order_id = @order_id";
 
                 DbParameter paramOrder = cmd.CreateParameter();
                 paramOrder.ParameterName = "order_id";
@@ -81,14 +81,10 @@ namespace SWP_Tesla_Website.Models.DB {
         public async Task OpenConnection() {
             if (this._conn?.State == System.Data.ConnectionState.Open)
                 return;
-            try {
-                if(this._conn == null)
-                    this._conn = new MySqlConnection(ConnectionString);
-                if (this._conn.State != System.Data.ConnectionState.Open)
-                    await this._conn.OpenAsync();
-            }catch(Exception e) {
-                Console.WriteLine("Failed to open Database!");
-            }
+            if(this._conn == null)
+                this._conn = new MySqlConnection(ConnectionString);
+            if (this._conn.State != System.Data.ConnectionState.Open)
+                await this._conn.OpenAsync();
         }
 
         public async Task<bool> PayOrder(Order order) {
@@ -125,7 +121,10 @@ namespace SWP_Tesla_Website.Models.DB {
                 order_saldo.Value = saldo;
                 cmd.Parameters.Add(order_saldo);
 
-                cmd.CommandText = "UPDATE orders saldo=@saldo WHERE order_id = @order_id";
+                cmd.CommandText = "UPDATE orders SET saldo=@saldo WHERE order_id = @order_id";
+
+                if (_conn?.State != System.Data.ConnectionState.Open)
+                    await OpenConnection();
 
                 return await cmd.ExecuteNonQueryAsync() >= 1;
 

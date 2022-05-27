@@ -3,6 +3,13 @@
     src: url('../multimedia/Font/gotham_book.otf');
 }
 
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button{
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
+
 :root {
     --fontColor: #000000;
     --fontFamaly: Gotham ssm;
@@ -19,6 +26,11 @@
 
 .flex{
     display: flex;
+}
+.flex-middle {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 .none {
     display: none;
@@ -362,6 +374,3 @@ body {
     outline: none;
 }
 
-.order-form {
-    margin-top: 50%;
-}

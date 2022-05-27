@@ -1,16 +1,18 @@
 ﻿@model Car
 
 <div class="card">
-    @if (Model.Model.Contains("Model X"))
-    {
-        <img class="card-image" src="../multimedia/pictures/ModelX-Panel.jpg">
-    }else if(Model.Model.Contains("Model Y")) {
-        <img class="card-image" src="../multimedia/pictures/ModelY-Panel.png">
-    }else if(Model.Model.Contains("Model 3")) {
-        <img class="card-image" src="../multimedia/pictures/TeslaModel3-Panel.jpg">
-    }else if(Model.Model.Contains("Model S")) {
-        <img class="card-image" src="../multimedia/pictures/ModelS-Panel.jpg">
-    }
+    <div class="car-image-container">
+        @if (Model.Model.Contains("Model X"))
+        {
+            <img class="card-image" src="../multimedia/pictures/ModelX-Panel.jpg">
+        }else if(Model.Model.Contains("Model Y")) {
+            <img class="card-image" src="../multimedia/pictures/ModelY-Panel.png">
+        }else if(Model.Model.Contains("Model 3")) {
+            <img class="card-image" src="../multimedia/pictures/TeslaModel3-Panel.png">
+        }else if(Model.Model.Contains("Model S")) {
+            <img class="card-image" src="../multimedia/pictures/ModelS-Panel.jpg">
+        }
+    </div>
     <h1 class="model first">@Model.Model.Split("|")[0]</h1>
     <h1 class="model second">@Model.Model.Split("|")[1]</h1>
 

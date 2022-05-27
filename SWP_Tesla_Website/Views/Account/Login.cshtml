@@ -16,7 +16,7 @@
 
     <div class="signUp-container sectionPart" currentSiteState="@state">
         <p>Sign Up</p>
-        <form asp-controller="Account" asp-action="Register" method="post">
+        <form autocomplete="off" asp-controller="Account" asp-action="Register" method="post">
             <input type="text" asp-for="Username" placeholder="Username" />
             <span class="error-message register" asp-validation-for="Username"></span>
             <input type="email" asp-for="Email" placeholder="Email" />
@@ -33,7 +33,7 @@
     </div>
     <div class="signIn-container sectionPart" currentSiteState="@state">
         <p>Sign In</p>
-        <form id="signIn-form" asp-controller="Account" asp-action="Login" method="post" runat="server">
+        <form autocomplete="off" id="signIn-form" asp-controller="Account" asp-action="Login" method="post" runat="server">
             <input type="text" asp-for="Username" placeholder="Username/Email" />
             <span class="error-message login" asp-validation-for="Username"></span>
             <input type="password" asp-for="Password" placeholder="Password" />

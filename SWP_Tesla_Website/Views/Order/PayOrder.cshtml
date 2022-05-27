@@ -1,8 +1,55 @@
 ﻿@model Order
 
+<link rel="stylesheet" href="~/css/order.css">
 
-<form class="order-form" asp-action="PayOrder" asp-controller="order" method="post">
-	<label asp-for="Pay">The Amount to pay: @Model.Saldo</label>
-	<input asp-for="Pay" type="number" placeholder="Enter Amount to pay"/>
-	<button>Pay</button>
-</form>
+<div class="pay-order-container">
+	<div class="saldo-display">
+		<span id="span1">You need to pay</span>
+		<span class="cost">@string.Format("{0:0,0.##}", Model.Saldo)</span>
+		<span class="info">After payment we will proceed with your Order</span>
+		<a class="info-button" href="">Learn More</a>
+	</div>
+    <form class="order-form" asp-action="PayOrder" asp-controller="order" method="post">
+		<div class="input-cont">
+			<input class="pay-input"  asp-for="Pay" type="number" title="" required/>
+			<label>Amount</label>
+			<div class="underline"></div>
+		</div>
+		<button class="pay-btn">Check Out</button>
+	</form>
+</div>
+
+<script>
+	const input_field = document.querySelector(".pay-input")
+	const amount_span = document.querySelector("span.cost")
+
+	input_field.value = ""
+	var old_value = 0
+	var toPay = amount_span.innerText.replace(".", ",")
+
+	input_field.addEventListener('focusout', () => {
+		if(input_field.value == 0)
+			input_field.value = ''
+		
+		let value = (input_field.value.length == 0)? 0 : input_field.value
+		let diff = toPay.replace(",", "")-value
+
+		if(diff >= 0){
+			amount_span.innerText = getFormattedNumber(diff)
+		}
+		else{
+			input_field.value = getFormattedNumber(old_value)
+			return;
+		}
+
+		old_value = value;
+
+	})
+	input_field.addEventListener('focus', () => {
+		amount_span.innerText = getFormattedNumber(toPay)
+	})
+
+	function getFormattedNumber(num){
+		return num.toLocaleString(undefined, {minimumFractionDigits: 2}).split(".")[0].replace(",", ".")
+	}
+</script>

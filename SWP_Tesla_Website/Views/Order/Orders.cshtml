@@ -22,8 +22,13 @@
 				<tr>
 					<td>@order.ID</td>
 					<td>@order.article_id</td>
-					<td>@order.Saldo</td>
-					<td>@order.status.getStatusName()</td>
+					<td>@if(order.Saldo == 0) {
+							<p>-</p>
+						}else {
+							<p>@string.Format("{0:0,0.00}", order.Saldo)</p>
+						}
+					</td>
+					<td><p class="@order.status.getStatusName().ToLower()">@order.status.getStatusName()</p></td>
 					<td>
 						@if(@order.status == OrderStatus.open) {
 							<button class="user-btn pay" onclick="payOrder(@order.ID)">Pay</button>
@@ -49,8 +54,11 @@
 	<script>
 		function payOrder(id){
 			let url = "/order/payorder/" + id
-			console.log(url)
-			fetch(url, "GET")
+			window.location.href = url
+		}
+		function cancelOrder(id){
+			let url = "/order/cancelOrder/" + id
+			window.location.href = url
 		}
 	</script>
 }
