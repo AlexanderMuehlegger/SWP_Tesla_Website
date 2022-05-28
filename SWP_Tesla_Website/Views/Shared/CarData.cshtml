@@ -30,36 +30,12 @@
         </div>
         <div class="props">
             <div class="btn-container">
-<<<<<<< HEAD
-            </div>
-                <!--TODO: model mittels form an controller schicken und dort mit ajax abfragen-->
-                @using (Html.BeginForm("CarOrder", "Car", FormMethod.Post)) {
-=======
-                <!--Daten wieder zurück an Controller schicken, wie?-->
                 <button class="btn" onclick="window.location.href = '/Car/CarOrder?model=@Model[0].Model.Split("|")[0].Trim()'"><p class="btn-content">ORDER NOW</p></button>
-                @*@Model[0].Model.Split("|")[0].Trim().Replace(" ", "")*@
             </div>
+                
+                
 
-                <!--<!--TODO: model mittels form an controller schicken und dort mit ajax abfragen-->
-                <!--using (Html.BeginForm("CarOrder", "Car", FormMethod.Post)) {
->>>>>>> f9dcf493882958dfa039a28606a9829e90e345e8
-                    
-                        <input id="model0" name="model0" type="hidden" value="Model[0]" />
-                        <input id="model1" name="model1" type="hidden" value="Model[1]" />
-                        <input id="model2" name="model2" type="hidden" value="Model[2]" />
-                        <button class="btn" onclick="window.location.href='/Car/CarOrder/'" type="submit"><p class="btn-content">ORDER NOW</p></button>-->
-                        <!--TODO: find out how to send a whole list, receive it in controller and send it to CarOrder-->
-                               
-                               
-                        
-<<<<<<< HEAD
-                        @*<button class="btn" onclick="window.location.href='/Car/CarOrder/'" type="submit"><p class="btn-content">ORDER NOW</p></button>*@
-                    </div>
-=======
-                       <!-- *<button class="btn" onclick="window.location.href='/Car/CarOrder/'" type="submit"><p class="btn-content">ORDER NOW</p></button>*-->
-                    <!--</div>-->
 
->>>>>>> f9dcf493882958dfa039a28606a9829e90e345e8
         </div>
     </div>
 </div>

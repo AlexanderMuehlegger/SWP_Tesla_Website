@@ -4,7 +4,15 @@
     <div class="display-car-look">
         <span class="text-prop">@Model[0].Max_speed</span>
     </div>
-    <div class="display-car-data">
-        <span class="text-prop">=======================</span>
+    <div class="display-car-details">
+        <div class="details-card">
+            <div class="props">
+                <span class="title-model">@Model[0].Model.Split("|")[0]</span>
+                <span class="prop">Hello there</span>
+                @foreach(Car car in Model) {
+                <button class="btn">@car.Model.Split("|")[1] @car.Price</button><!--TODO: Daten von Autos anzeigen-->
+            }
+            </div>
+        </div>
     </div>
 </div>

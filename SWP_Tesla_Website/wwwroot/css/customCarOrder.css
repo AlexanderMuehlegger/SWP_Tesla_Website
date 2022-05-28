@@ -1,13 +1,13 @@
 ﻿body {
 }
 
-
 .display-car-order{
     position:absolute;
     width:100%;
     color:black;
-    bottom:0;
     display:flex;
+    flex-direction:column;
+
 }
 
 .display-car-look{
@@ -19,20 +19,49 @@
 
 }
 
-.display-order-details{
+.display-car-details{
     width:30%;
     height:100%;
     overflow:auto;
-    left:70%;
+    position:fixed;
+    right:0;
 }
 
 .text-prop{
     color:black;
 }
 
+.props {
+    align-self: center;
+    display:flex;
+    width:100%;
+    flex-direction:column;
+    grid-template-columns: .75fr .5fr;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    justify-content:center;
+    align-content:center;
+    align-self:center;
+}
+
+.prop {
+    width: max-content;
+    padding: .5rem;
+    box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.5);
+    border-radius: 5px;
+}
+
+.title-model{
+    min-width:max-content;
+    
+    font-weight:bold;
+    font-size:250%;
+}
+
 .details-card {
     position: relative;
-    width: 400px;
+    min-width: max-content;
+    width: 100%;
     min-height: 100%;
     height: max-content;
     border-radius: 15px;
@@ -43,4 +72,64 @@
     margin-bottom: -25%;
     display: flex;
     flex-direction: column;
+}
+
+.btn {
+    position: relative;
+    width: 80%;
+    min-height: max-content;
+    height:50px;
+    justify-content: center;
+    background-color: hsl(0 0% 100% / 0.2);
+    margin-bottom: 7.5%;
+    margin-inline: 1rem;
+    border-radius: 50px;
+    display: flex;
+    justify-content: center;
+    align-self:center;
+    transition: transform ease-out 350ms;
+    border: 2px solid;
+    backdrop-filter: blur(.5rem);
+}
+
+    .btn:hover {
+        transform: scale(1.1);
+    }
+
+    .btn:focus {
+        box-shadow: none;
+    }
+
+    .btn > p {
+        position: relative;
+        margin: 0;
+        padding: 0;
+    }
+
+    .btn::after {
+        content: '';
+        width: 70%;
+        height: 2px;
+        background-color: black;
+        z-index: 120;
+        position: absolute;
+        bottom: 15%;
+        transform: scaleX(0);
+        transition: transform ease-out 350ms;
+    }
+
+    .btn:hover::after {
+        transform: scaleX(1);
+    }
+
+.btn-container {
+    margin-top: 10%;
+    position: relative;
+    display: flex;
+    margin-bottom: 5%;
+}
+
+.btn-content {
+    position: relative;
+    align-content: center;
 }
