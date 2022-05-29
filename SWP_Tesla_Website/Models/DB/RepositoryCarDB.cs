@@ -119,7 +119,7 @@ namespace SWP_Tesla_Website.Models.DB {
         public async Task<bool> UpdateAsync(Car car) {
             if (this._conn?.State == System.Data.ConnectionState.Open) {
                 DbCommand cmdUpdate = this._conn.CreateCommand();
-                cmdUpdate.CommandText = "update car set Model=Model, Ps=@Ps, Acceleration=@Acceleration, Price=@Price, Max_range=@Max_range, Max_speed=@Max_speed where car_id=@_id";
+                cmdUpdate.CommandText = "UPDATE car SET model=Model, ps=@Ps, acceleration=@Acceleration, price=@Price, max_range=@Max_range, max_speed=@Max_speed WHERE model=@Model";
 
                 DbParameter paramM = cmdUpdate.CreateParameter();
                 paramM.ParameterName = "Model";

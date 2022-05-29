@@ -19,11 +19,8 @@ namespace SWP_Tesla_Website.Controllers {
 
         [HttpGet]
         public IActionResult Index() {
-            string user_string = HttpContext.Session.GetString("user");
-            if (user_string == null || user_string.Length == 0)
-                return RedirectToAction("Login");
-
-            
+            if (!hasAccess(Access.USER))
+                return RedirectToAction("login");
 
             return View();
         }
@@ -31,7 +28,7 @@ namespace SWP_Tesla_Website.Controllers {
         [HttpGet]
         public async Task<IActionResult> AdminPanel() {
             if(!hasAccess(Access.ADMIN))
-                return View("index"); 
+                return RedirectToAction("index"); 
 
             List<Car> cars = await GetCarListAsync();
             List<User> users = await GetUserListAsync();
@@ -289,14 +286,17 @@ namespace SWP_Tesla_Website.Controllers {
                 await _rep.DisconnectAsync();
             }
         }
-
-        public bool hasAccess(Access needed) {
+        public User getCurrentUser () {
+            string raw = HttpContext.Session.GetString("user");
+            return SWP_Tesla_Website.Models.User.getObject(raw);
+        }
+        public bool hasAccess ( Access needed ) {
             Access access = getCurrentAccess();
 
             return access.hasAccess(needed);
         }
 
-        public Access getCurrentAccess() {
+        public Access getCurrentAccess () {
             string user_string = HttpContext.Session.GetString("user");
             if (user_string == null || user_string.Length == 0)
                 return Access.UNAUTHORIZED;

@@ -1,4 +1,6 @@
-﻿.primary-menu {
+﻿@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;1,700&family=Roboto:wght@300&display=swap');
+
+.primary-menu {
     display: none;
 }
 .primary-content {
@@ -40,6 +42,11 @@
     margin-bottom: -25%;
     display: flex;
     flex-direction: column;
+    transition: transform 250ms ease-out;
+}
+
+.card:hover {
+    transform: scale(.85)
 }
 
 .card-image {
@@ -276,3 +283,106 @@ tr:nth-child(even){
     margin: 1rem;
 }
 
+.car-data-changer {
+    position: absolute;
+    z-index: 1000;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100vw;
+    backdrop-filter: blur(1rem);
+    background-color: rgba(0,0,0, .4);
+    transform: scale(1.1)
+}
+
+.car-data-changer * {
+    font-family: 'DM Sans';
+}
+
+.car-data-changer form {
+    position: relative;
+    background: white;
+    padding: 2.5rem;
+    border-radius: 1rem;
+}
+
+.changer-innerwrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-block-end: 1.25rem;
+}
+
+.changer-innerwrapper input {
+    height: 40px;
+    width: 100%;
+    letter-spacing: 1px;
+    border: none;
+    outline: none;
+    border-bottom: 2px solid silver;
+    padding: 0;
+    font-size: 17px;
+    margin-block-start: 1rem;
+}
+
+.changer-innerwrapper label {
+    position: absolute;
+    bottom: 10px;
+    left: 0px;
+    color: grey;
+    pointer-events: none;
+    transition: transform 150ms ease-out;
+}
+
+.changer-innerwrapper input:focus ~ label,
+.changer-innerwrapper input:valid ~ label {
+    transform: translateY(-25px);
+    font-size: 15px;
+    color: rgba(64, 64, 247, .7);
+}
+
+
+.changer-innerwrapper .underline {
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+    height: 2px;
+    width: 100%;
+}
+
+.changer-innerwrapper .underline::before {
+    content: '';
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background: red;
+    background: linear-gradient(to left, red 50%, #50C878 50%) right;
+    background-size: 200%;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 150ms ease-out,
+    background 150ms ease-out
+}
+
+.changer-innerwrapper input:focus ~ .underline::before {
+    transform: scaleX(1)
+}
+
+.changer-innerwrapper input:valid ~ .underline::before {
+    background-position: left;
+    transform: scale(1);
+}
+
+.changer-btn {
+    position: relative;
+    background-color: #4040F7;
+    border: none;
+    color: white;
+    min-width: 10rem;
+    min-height: 2.75rem;
+    border-radius: .75rem;
+}

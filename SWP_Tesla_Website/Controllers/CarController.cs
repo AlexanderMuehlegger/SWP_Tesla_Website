@@ -75,6 +75,38 @@ namespace SWP_Tesla_Website.Controllers {
 
         }
 
+        [HttpGet("carData/{model}")]
+        public async Task<ActionResult<string>> getCarData(string model) {
+            if (!hasAccess(Access.ADMIN))
+                return "Unauthorized!";
+            try {
+                await _rep_car.ConnectAsync();
+                return (await _rep_car.GetByModelAsync(model))?.getJson();
+            }catch(Exception ex) {
+                return "Failed getting the Car by id!";
+            }finally {
+                await _rep_car.DisconnectAsync();
+            }
+        }
+
+
+
+        [HttpGet]
+        public async Task<ActionResult<string>> ChangeCarData (string data) {
+            try {
+                Car car = Car.getObject(data);
+                await _rep_car.ConnectAsync();
+                if (await _rep_car.UpdateAsync(car)) {
+                    return "{Success : Updated data}";
+                }
+                return "{Failed : Couldn't update data}";
+            } catch (Exception ex) {
+                return "{Error : Failed Updating}" + ex.StackTrace;
+            } finally {
+                await _rep_car.DisconnectAsync();
+            }
+        }
+
         public async Task<Car> GetByModelAsync(string model) {
             Car car;
             try {
@@ -100,6 +132,22 @@ namespace SWP_Tesla_Website.Controllers {
             return carsNedded;
         }
 
+        public User getCurrentUser () {
+            string raw = HttpContext.Session.GetString("user");
+            return SWP_Tesla_Website.Models.User.getObject(raw);
+        }
+        public bool hasAccess ( Access needed ) {
+            Access access = getCurrentAccess();
 
+            return access.hasAccess(needed);
+        }
+
+        public Access getCurrentAccess () {
+            string user_string = HttpContext.Session.GetString("user");
+            if (user_string == null || user_string.Length == 0)
+                return Access.UNAUTHORIZED;
+
+            return SWP_Tesla_Website.Models.User.getObject(user_string).access;
+        }
     }
 }

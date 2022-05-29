@@ -103,6 +103,40 @@
     }
     <div id="site-state" style="display:none;">@Context.Session.GetString("adminpanel-state")</div>
 </div>
+<div class="car-data-changer" style="display:none">
+    <span id="model-container" style="display:none"></span>
+    <form asp-action="changeCarData" asp-controller="car" class="car-changer-form">
+        <div class="changer-innerwrapper">
+            <input value='' type="text" required>
+            <label for="">Reichweite: </label>
+            <div class="underline"></div>
+        </div>
+        <div class="changer-innerwrapper">
+            <input value='' type="text" required>
+            <label for="">Geschwindigkeit:</label>
+            <div class="underline"></div>
+        </div>
+        <div class="changer-innerwrapper">
+            <input value='' type="text" required>
+            <label for="">0-100 km/h</label>
+            <div class="underline"></div>
+        </div>
+        <div class="changer-innerwrapper">
+            <input value='' type="text" required>
+            <label for="">PS: </label>
+            <div class="underline"></div>
+        </div>
+        <div class="changer-innerwrapper">
+            <input value='' type="text" required>
+            <label for="">Price: </label>
+            <div class="underline"></div>
+        </div>
+        <div class="changer-innerwrapper">
+            <button class="changer-btn" onclick="hideChanger()" type="button">Cancel</button>
+            <button class="changer-btn" onclick="changeData()" type="button">Save</button>
+        </div>
+    </form>
+</div>
 
 <script type="text/javascript" src="~/js/AdminPanel.js"></script>
 <script>
@@ -157,14 +191,75 @@
         })
     })
 
+    document.querySelectorAll(".card").forEach(element => {
+        element.addEventListener('click', (event) =>  {
+            const modelDecl = event.currentTarget.querySelectorAll(".model")
+            let model = modelDecl[0].innerText + " | " + modelDecl[1].innerText
+            fetch("/carData/" + model, {
+                method: 'GET'
+            })
+            .then(response => response.text())
+            .then(data => JSON.parse(data))
+            .then(jObject => showChanger(jObject))
+        })
+    })
+
     function changeState(){
-        
         fetch("/account/changeadminpanelstate")
             .then(response => response.text())
             .then(data => state_div.textContent = data)
-        
     }
 
+    function showChanger(jObj){
+        console.log(jObj)
+        const changerFormWrapper = document.querySelector(".car-data-changer")
+        const changerForm = changerFormWrapper.querySelector(".car-changer-form")
+        const labels = changerForm.querySelectorAll("label")
+        const inputs = changerForm.querySelectorAll("input")
+        const model_container = changerFormWrapper.querySelector("#model-container")
+
+        model_container.innerHTML = jObj["_car"]["Model"]
+
+        inputs.forEach(element => {
+            element.value = ''
+        })
+
+        labels[0].innerText = "Reichweite: (" + jObj["_car"]["Max_range"] + ")"
+        labels[1].innerText = "Geschwindigkeit (" + jObj["_car"]["Max_speed"] + ")"
+        labels[2].innerText = "0-100 km/h (" + jObj["_car"]["Acceleration"] + ")"
+        labels[3].innerText = "PS: (" + jObj["_car"]["Ps"] + ")"
+        labels[4].innerText = "Price: (" + jObj["_car"]["Price"].toLocaleString(undefined, {minimunFractiondigits: 2}) + ")"
+
+        
+        changerFormWrapper.style.display = ""
+
+    }
+
+    function hideChanger(){
+        const changerFormWrapper = document.querySelector(".car-data-changer")
+        changerFormWrapper.style.display = "none"
+    }
     
+    function changeData(event){
+
+        const inputs = document.querySelectorAll(".car-changer-form .changer-innerwrapper input")
+        const model = document.getElementById("model-container")
+
+        var data = {
+            "_car" : {
+                "Acceleration": inputs[2].value,
+                "Max_range": inputs[0].value,
+                "Max_speed": inputs[1].value,
+                "Model": model.innerHTML,
+                "Price": inputs[4].value,
+                "Ps": inputs[3].value
+            }
+        }
+
+        fetch("/car/changecardata?data=" + JSON.stringify(data), {
+            method: "GET"
+        }).then(response => response.json())
+        .then(data => console.log(data))
+    }
 
 </script>
