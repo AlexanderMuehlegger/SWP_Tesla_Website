@@ -51,6 +51,43 @@
     border-radius: 5px;
 }
 
+.display-props-data {
+    min-width: 5px;
+    width:90%;
+    min-height: 5px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    display: flex;
+    align-self:center;
+    flex-direction: row;
+    text-align: center;
+}
+
+.props-data {
+    align-self: center;
+    width:30%;
+    display: flex;
+    gap: 1rem;
+    flex-direction: column;
+    grid-template-columns: repeat(2, 1fr);
+    padding: 1rem;
+}
+
+.prop-text-data {
+    align-self: center;
+    width: max-content;
+    font-size: 20px;
+    font-weight: bold;
+    margin-block: .1rem;
+}
+
+.prop-descr-data {
+    align-self: center;
+    width: max-content;
+    font-size: 15px;
+    padding: .1rem;
+}
+
 .title-model{
     min-width:max-content;
     
@@ -74,18 +111,30 @@
     flex-direction: column;
 }
 
+.display-model-name{
+    min-width:max-content;
+    min-height:max-content;
+    left:0;
+    padding:.5rem;
+}
+
+.display-model-price {
+    min-width: max-content;
+    min-height: max-content;
+    padding:.5rem;
+    right: 0;
+}
+
 .btn {
     position: relative;
     width: 80%;
     min-height: max-content;
     height:50px;
-    justify-content: center;
     background-color: hsl(0 0% 100% / 0.2);
     margin-bottom: 7.5%;
     margin-inline: 1rem;
     border-radius: 50px;
     display: flex;
-    justify-content: center;
     align-self:center;
     transition: transform ease-out 350ms;
     border: 2px solid;

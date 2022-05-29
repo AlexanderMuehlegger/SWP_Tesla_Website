@@ -1,7 +1,7 @@
 ﻿@model List<Car>
 
 <div class="display-car-order">
-    <div class="display-car-look">
+    <div class="display-car-look"><!--evtl. Link zu Bild in Database eintragen, damit individualle zuteilbar-->
         <span class="text-prop">@Model[0].Max_speed</span>
     </div>
     <div class="display-car-details">
@@ -9,10 +9,44 @@
             <div class="props">
                 <span class="title-model">@Model[0].Model.Split("|")[0]</span>
                 <span class="prop">Hello there</span>
-                @foreach(Car car in Model) {
-                <button class="btn">@car.Model.Split("|")[1] @car.Price</button><!--TODO: Daten von Autos anzeigen-->
-            }
+                @foreach (Car car in Model) {
+                    <button class="btn" onclick="changeCarValue('@car.Model.Split("|")[1]')">
+                        <span class="display-model-name">@car.Model.Split("|")[1]</span>
+                        <span class="display-model-price">@car.Price</span>
+                    </button><!--TODO: Daten von Autos anzeigen-->
+                }
+                <div class="display-props-data">
+                    <div class="props-data">
+                        <span class="prop-text-data" id="Range"></span>
+                        <span class="prop-descr-data" id="RangeDescr">Range</span>
+                    </div>
+                    <div class="props-data">
+                        <span class="prop-text-data" id="MaxSpeed"></span>
+                        <span class="prop-descr-data" id="MaxSpeedDescr">Max Speed</span>
+                    </div>
+                    <div class="props-data">
+                        <span class="prop-text-data" id="Acceleration"></span>
+                        <span class="prop-descr-data" id="AccelDescr">0-100 km/h</span>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </div>
+<script>
+    const spanRange = document.getElementById("Range");
+    const spanMaxSpeed = document.getElementById("MaxSpeed");
+    const spanAcceleration = document.getElementById("Acceleration");
+
+    const carVersions = ["Standart Range", "Plaid", "Performance", "Long Range"];
+
+    function changeCarValue(model) {
+        spanRange.textContent = "";//Daten von jeweiligem model ausgeben, Alex hat API
+        spanMaxSpeed.textContent = "";
+        spanAcceleration.textContent = "";
+    }
+
+    function myfunction() {
+
+    }
+</script>
