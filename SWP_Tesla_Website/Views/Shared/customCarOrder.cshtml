@@ -10,7 +10,7 @@
                 <span class="title-model">@Model[0].Model.Split("|")[0]</span>
                 <span class="prop">Hello there</span>
                 @foreach (Car car in Model) {
-                    <button class="btn" onclick="changeCarValue('@car.Model.Split("|")[1]')">
+                    <button class="btn" onclick="changeCarValue('@car.Max_range | @car.Max_speed | @car.Acceleration | @car.Model')">
                         <span class="display-model-name">@car.Model.Split("|")[1]</span>
                         <span class="display-model-price">@car.Price</span>
                     </button><!--TODO: Daten von Autos anzeigen-->
@@ -29,6 +29,10 @@
                         <span class="prop-descr-data" id="AccelDescr">0-100 km/h</span>
                     </div>
                 </div>
+                <div class="props-2">
+                    <span class="text-prop">Order:</span>
+                    <span class="prop" id="OrderModel"></span>
+                </div>
             </div>
         </div>
     </div>
@@ -37,13 +41,18 @@
     const spanRange = document.getElementById("Range");
     const spanMaxSpeed = document.getElementById("MaxSpeed");
     const spanAcceleration = document.getElementById("Acceleration");
+    const spanOrderModel = document.getElementById("OrderModel");
 
     const carVersions = ["Standart Range", "Plaid", "Performance", "Long Range"];
+    $('#OrderModel').hide();
 
     function changeCarValue(model) {
-        spanRange.textContent = "";//Daten von jeweiligem model ausgeben, Alex hat API
-        spanMaxSpeed.textContent = "";
-        spanAcceleration.textContent = "";
+        var modelSplit = model.split("|");
+        spanRange.textContent = modelSplit[0] + " KM";//Daten von jeweiligem model ausgeben, Alex hat API
+        spanMaxSpeed.textContent = modelSplit[1] + " KM/H";
+        spanAcceleration.textContent = modelSplit[2] + " s";
+        spanOrderModel.textContent = modelSplit[3] + " | " + modelSplit[4];
+        $('#OrderModel').show();//Hide span, them make it visible after clicking button
     }
 
     function myfunction() {
