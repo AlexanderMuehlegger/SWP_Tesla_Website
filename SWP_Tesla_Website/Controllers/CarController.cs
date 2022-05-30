@@ -96,12 +96,22 @@ namespace SWP_Tesla_Website.Controllers {
             try {
                 Car car = Car.getObject(data);
                 await _rep_car.ConnectAsync();
+
                 if (await _rep_car.UpdateAsync(car)) {
-                    return "{Success : Updated data}";
+                    return new Message() {
+                        msg = "Saving successfully",
+                        status = "Success"
+                    }.getJson();
                 }
-                return "{Failed : Couldn't update data}";
+                return new Message() {
+                    msg = "Couldn't save data!",
+                    status = "Failed"
+                }.getJson();
             } catch (Exception ex) {
-                return "{Error : Failed Updating}" + ex.StackTrace;
+                return new Message() {
+                    msg = "Failed while saving!",
+                    status = "Error"
+                }.getJson(); ;
             } finally {
                 await _rep_car.DisconnectAsync();
             }

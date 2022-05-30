@@ -131,11 +131,20 @@
             <label for="">Price: </label>
             <div class="underline"></div>
         </div>
-        <div class="changer-innerwrapper">
+        <div id="changer-btn-container" class="changer-innerwrapper">
             <button class="changer-btn" onclick="hideChanger()" type="button">Cancel</button>
             <button class="changer-btn" onclick="changeData()" type="button">Save</button>
         </div>
     </form>
+</div>
+<div class="notification-wrapper">
+    <div class="notification-container">
+        @* <div class="notification success">
+            <h1> Success</h1>
+            <h2>Updated Data</h2>
+            <div class="underline"></div>
+        </div> *@
+    </div>
 </div>
 
 <script type="text/javascript" src="~/js/AdminPanel.js"></script>
@@ -143,6 +152,8 @@
     const state_div = document.querySelector("#site-state")
     const role_changers = document.querySelectorAll(".role-changer-btn")
     const role_module = document.querySelector(".role-module")
+
+    var jObject_global = null
     function getSession(){
         
         var state = state_div.innerText;
@@ -212,6 +223,7 @@
 
     function showChanger(jObj){
         console.log(jObj)
+        jObject_global = jObj
         const changerFormWrapper = document.querySelector(".car-data-changer")
         const changerForm = changerFormWrapper.querySelector(".car-changer-form")
         const labels = changerForm.querySelectorAll("label")
@@ -236,8 +248,10 @@
     }
 
     function hideChanger(){
-        const changerFormWrapper = document.querySelector(".car-data-changer")
-        changerFormWrapper.style.display = "none"
+        setTimeout(() => {
+            const changerFormWrapper = document.querySelector(".car-data-changer")
+            changerFormWrapper.style.display = "none"
+        }, 250)
     }
     
     function changeData(event){
@@ -247,19 +261,73 @@
 
         var data = {
             "_car" : {
-                "Acceleration": inputs[2].value,
-                "Max_range": inputs[0].value,
-                "Max_speed": inputs[1].value,
+                "Acceleration": inputs[2].value || jObject_global["_car"]["Acceleration"],
+                "Max_range": inputs[0].value || jObject_global["_car"]["Max_range"],
+                "Max_speed": inputs[1].value || jObject_global["_car"]["Max_speed"],
                 "Model": model.innerHTML,
-                "Price": inputs[4].value,
-                "Ps": inputs[3].value
+                "Price": inputs[4].value || jObject_global["_car"]["Price"],
+                "Ps": inputs[3].value || jObject_global["_car"]["Ps"]
             }
         }
 
         fetch("/car/changecardata?data=" + JSON.stringify(data), {
             method: "GET"
         }).then(response => response.json())
-        .then(data => console.log(data))
+        .then(data => createChangeNoti(data))
+    }
+
+    function createChangeNoti(data){
+        if(data == "" || data == null){
+            newNotification("Connection error!", "Error")
+            return;
+        }
+        hideChanger()
+        newNotification(data["msg"], data["status"], true)
+    }
+
+    function changeNotiState(){
+        const notification = document.querySelector(".notification")
+        notification.classList.toggle("active")
+    }
+
+    function newNotification(msg, status, reload){
+        const notiContainer = document.querySelector(".notification-container")
+        let notification = document.createElement("div")
+        notification.classList.add("notification")
+        
+        if(status.toLowerCase() == "failed" || status.toLowerCase() == "error")
+            notification.classList.add("failed")
+        else if(status.toLowerCase() == "success")
+            notification.classList.add("success")
+        else
+            return "Error"
+        
+        let h1 = document.createElement("h1")
+        h1.innerHTML = status
+        let h2 = document.createElement("h2")
+        h2.innerHTML = msg
+
+        let underline = document.createElement("div")
+        underline.classList.add("underline")
+
+        notification.appendChild(h1)
+        notification.appendChild(h2)
+        notification.appendChild(underline)
+        notiContainer.appendChild(notification)
+        
+        setTimeout(() => {
+            notification.classList.add("active")
+            
+        },250)
+
+        setTimeout(() => {
+            notification.classList.remove("active")
+            setTimeout(() => {
+                notiContainer.removeChild(notification)
+                if(reload)
+                    location.reload()
+            }, 500)
+        }, 3500)
     }
 
 </script>
