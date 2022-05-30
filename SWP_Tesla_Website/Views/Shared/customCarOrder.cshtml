@@ -1,8 +1,17 @@
 ﻿@model List<Car>
 
 <div class="display-car-order">
-    <div class="display-car-look"><!--evtl. Link zu Bild in Database eintragen, damit individualle zuteilbar-->
-        <span class="text-prop">@Model[0].Max_speed</span>
+    <div class="display-car-look">
+        <!--evtl. Link zu Bild in Database eintragen, damit individualle zuteilbar-->
+        @if (Model[0].Model.Contains("Model X")) {
+            <img class="car-image" src="../multimedia/pictures/ModelX-Panel.jpg">
+        } else if (Model[0].Model.Contains("Model Y")) {
+            <img class="car-image" src="../multimedia/pictures/ModelY-Panel.png">
+        } else if (Model[0].Model.Contains("Model 3")) {
+            <img class="car-image" src="../multimedia/pictures/TeslaModel3-Panel.png">
+        } else if (Model[0].Model.Contains("Model S")) {
+            <img class="car-image" src="../multimedia/pictures/ModelS-Panel.jpg">
+        }
     </div>
     <div class="display-car-details">
         <div class="details-card">
@@ -33,6 +42,10 @@
                     <span class="text-prop">Order:</span>
                     <span class="prop" id="OrderModel"></span>
                 </div>
+                <button class="btn" >
+                    <span class="display-model-name">ORDER</span>
+                    <span class="display-model-price">NOW</span>
+                </button>
             </div>
         </div>
     </div>
@@ -42,9 +55,10 @@
     const spanMaxSpeed = document.getElementById("MaxSpeed");
     const spanAcceleration = document.getElementById("Acceleration");
     const spanOrderModel = document.getElementById("OrderModel");
+    const divCarImage = document.getElementById("CarImage");
 
     const carVersions = ["Standart Range", "Plaid", "Performance", "Long Range"];
-    $('#OrderModel').hide();
+    //$('#OrderModel').hide();
 
     function changeCarValue(model) {
         var modelSplit = model.split("|");
@@ -52,7 +66,23 @@
         spanMaxSpeed.textContent = modelSplit[1] + " KM/H";
         spanAcceleration.textContent = modelSplit[2] + " s";
         spanOrderModel.textContent = modelSplit[3] + " | " + modelSplit[4];
-        $('#OrderModel').show();//Hide span, them make it visible after clicking button
+        //$('#OrderModel').show();//Hide span, them make it visible after clicking button
+        spanOrderModel.style.display = "block";
+    }
+
+    function changeCarImage(model) {
+        if (model == "Model 3") {
+            divCarImage.src = "\wwwroot\multimedia\pictures\TeslaModel3-Panel.jpg";
+        }
+        if (model == "Model X") {
+            divCarImage.src = "\wwwroot\multimedia\pictures\ModelX-Panel.jpg";
+        }
+        if (model == "Model S") {
+            divCarImage.src = "\wwwroot\multimedia\pictures\ModelS-Panel.jpg";
+        }
+        if (model == "Model Y") {
+            divCarImage.src = "\wwwroot\multimedia\pictures\ModelY-Panel.jpg";
+        }
     }
 
     function myfunction() {
