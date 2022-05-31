@@ -10,6 +10,7 @@ namespace SWP_Tesla_Website.Models.DB {
         public DbConnection _conn;
         public string DbConnection_string = DB_DATA.connectionStr;
 
+
         public async Task ConnectAsync() {
             if (this._conn == null) {
                 _conn = new MySqlConnection(DbConnection_string);
@@ -204,5 +205,6 @@ namespace SWP_Tesla_Website.Models.DB {
             }
             return null;
         }
+
     }
 }

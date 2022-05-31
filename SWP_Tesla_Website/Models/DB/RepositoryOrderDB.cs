@@ -183,6 +183,24 @@ namespace SWP_Tesla_Website.Models.DB {
             }
             return null;
         }
+
+        public async Task<Order> GetRequiredOrderdata(string model) {
+
+            DbCommand cmd = this._conn.CreateCommand();
+            cmd.CommandText = "SELECT car_id, price, article_id FROM car WHERE model=@model";
+            DbParameter modelP = cmd.CreateParameter();
+            modelP.ParameterName = "model";
+            modelP.Value = model;
+            cmd.Parameters.Add(modelP);
+
+            using (DbDataReader reader = await cmd.ExecuteReaderAsync()) {
+                if (reader.Read())
+                    return getOrderData(reader);
+            }
+
+            return null;
+        }
+
         private Order getOrderData(DbDataReader reader) {
             return new Order() {
                 ID = int.Parse(reader["order_id"].ToString()),

@@ -12,6 +12,7 @@ namespace SWP_Tesla_Website.Models.DB
         public Task<List<Order>> GetAllOrders(int user_id);
 
         public Task<Order> GetOrder(int order_id);
+        public Task<Order> GetRequiredOrderdata(string model);
 
     }
 }

@@ -4,6 +4,7 @@ using SWP_Tesla_Website.Models;
 using SWP_Tesla_Website.Models.DB;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System;
 
 namespace SWP_Tesla_Website.Controllers {
     public class OrderController : Controller {
@@ -34,6 +35,24 @@ namespace SWP_Tesla_Website.Controllers {
         public async Task<IActionResult> PayOrder(Order order) {
             bool status = await _repOrder.PayOrder(order);
             return RedirectToAction("orders");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> OrderNow(string model) {
+            if (!hasAccess(Access.USER))
+                return RedirectToAction("login", "account");
+            try {
+                await _repOrder.OpenConnection();
+                Order order = await _repOrder.GetRequiredOrderdata(model);
+                order.user_id = getCurrentUser().ID;
+                if (await _repOrder.AddOrder(order))
+                    return RedirectToAction("orders", "account");
+            }catch(Exception ex) {
+                return RedirectToAction("Index", "Car");
+            }finally {
+                await _repOrder.CloseConnection();
+            }
+            return RedirectToAction("index", "account");
         }
 
         public async Task<IActionResult> CancelOrder (int id) {
