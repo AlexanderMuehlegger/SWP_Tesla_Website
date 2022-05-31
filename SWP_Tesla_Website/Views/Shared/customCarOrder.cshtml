@@ -60,8 +60,11 @@
     const carVersions = ["Standart Range", "Plaid", "Performance", "Long Range"];
     //$('#OrderModel').hide();
 
+    var model_global = 'Model S | Standard Range';
+
 
     function changeCarValue(model) {
+        model_global = model
         getCarDataFromModel(model)
         @*var modelSplit = model.split("|");
         spanRange.textContent = modelSplit[0] + " KM";//Daten von jeweiligem model ausgeben, Alex hat API
@@ -80,6 +83,10 @@
         .then(data => console.log(data))
     }
 
+    function orderRequest() {
+        fetch("/order/ordernow?model="+model_global, {method: "POST", redirect: "follow"})
+
+    }
 
 
     function myfunction() {

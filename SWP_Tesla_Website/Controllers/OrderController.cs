@@ -41,6 +41,7 @@ namespace SWP_Tesla_Website.Controllers {
         public async Task<IActionResult> OrderNow(string model) {
             if (!hasAccess(Access.USER))
                 return RedirectToAction("login", "account");
+
             try {
                 await _repOrder.OpenConnection();
                 Order order = await _repOrder.GetRequiredOrderdata(model);

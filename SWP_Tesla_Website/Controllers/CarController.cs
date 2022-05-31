@@ -78,13 +78,21 @@ namespace SWP_Tesla_Website.Controllers {
         [HttpGet("carData/{model}")]
         public async Task<ActionResult<string>> getCarData(string model) {
             if (!hasAccess(Access.ADMIN))
-                return "Unauthorized!";
+                return new Message() {
+                    msg = "Unauthorized",
+                    status = "Failed"
+                }.getJson();
+
             try {
                 await _rep_car.ConnectAsync();
                 return (await _rep_car.GetByModelAsync(model))?.getJson();
             }catch(Exception ex) {
-                return "Failed getting the Car by id!";
-            }finally {
+                return new Message() {
+                    msg = "Failed getting the Car by id!",
+                    status = "Failed"
+                }.getJson();
+            }
+            finally {
                 await _rep_car.DisconnectAsync();
             }
         }
@@ -99,7 +107,7 @@ namespace SWP_Tesla_Website.Controllers {
 
                 if (await _rep_car.UpdateAsync(car)) {
                     return new Message() {
-                        msg = "Saving successfully",
+                        msg = "Saved successfully",
                         status = "Success"
                     }.getJson();
                 }

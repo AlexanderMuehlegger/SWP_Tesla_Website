@@ -185,6 +185,8 @@ namespace SWP_Tesla_Website.Models.DB {
         }
 
         public async Task<Order> GetRequiredOrderdata(string model) {
+            if (this._conn?.State != System.Data.ConnectionState.Open || model == null || model == "")
+                return null;
 
             DbCommand cmd = this._conn.CreateCommand();
             cmd.CommandText = "SELECT car_id, price, article_id FROM car WHERE model=@model";
@@ -200,7 +202,6 @@ namespace SWP_Tesla_Website.Models.DB {
 
             return null;
         }
-
         private Order getOrderData(DbDataReader reader) {
             return new Order() {
                 ID = int.Parse(reader["order_id"].ToString()),

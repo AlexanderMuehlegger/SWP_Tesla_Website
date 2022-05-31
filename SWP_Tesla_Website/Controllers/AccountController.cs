@@ -138,10 +138,15 @@ namespace SWP_Tesla_Website.Controllers {
                     validUser = await this._rep.LoginAsync(userData);
 
                     if (validUser != null) {
+                        if (validUser.access == Access.BANNED) {
+                            HttpContext.Session.SetString("error-login", "You are BANNED!");
+                            return View();
+                        }
+                        
                         HttpContext.Session.SetString("user", validUser.getJson());
+                        
                         return RedirectToAction("index");
-                    }
-                    else {
+                    } else {
                         userData.access = Access.UNAUTHORIZED;
                         return View(userData);
                     }
