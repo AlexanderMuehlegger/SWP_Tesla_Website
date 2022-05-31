@@ -51,6 +51,7 @@
     </div>
 </div>
 <script>
+    //TODO: Make Data appear on page load
     const spanRange = document.getElementById("Range");
     const spanMaxSpeed = document.getElementById("MaxSpeed");
     const spanAcceleration = document.getElementById("Acceleration");
@@ -62,9 +63,9 @@
 
     
     function changeCarValue(model) {
-        console.log(model)
+        //console.log(model)
         var CarData = model
-        console.log(CarData)
+        //console.log(CarData)
 
 
         spanRange.innerText = CarData["_car"]["Max_range"] //Daten von jeweiligem model ausgeben
@@ -83,11 +84,5 @@
             .then(data => JSON.parse(data))
             .then(jObject => changeCarValue(jObject))
         
-    }
-
-
-
-    function myfunction() {
-
     }
 </script>
