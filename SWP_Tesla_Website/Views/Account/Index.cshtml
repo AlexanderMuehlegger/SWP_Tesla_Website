@@ -1,0 +1,19 @@
+﻿@using Microsoft.AspNetCore.Http;
+@using Newtonsoft.Json
+
+<link rel="stylesheet" href="~/css/user.css">
+
+@if(Context.Session.GetString("user") != null) {
+    <div class="wrapper">
+		<h1>Hello @SWP_Tesla_Website.Models.User.getObject(Context.Session.GetString("user")).Username</h1>
+		<a class="user-btn" href="/order/orders">Bestellungen</a>
+		@if (SWP_Tesla_Website.Models.User.getObject(Context.Session.GetString("user")).access.hasAccess(Access.ADMIN)) {
+			<a class="user-btn" href="/account/adminpanel">Admin Panel</a>
+		}
+		<form class="logout-form" asp-action="logout" asp-controller="account" method="post">
+			<button class="logout-btn"></button>
+		</form>
+	</div>
+}
+
+

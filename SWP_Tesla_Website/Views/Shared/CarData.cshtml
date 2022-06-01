@@ -1,0 +1,41 @@
+﻿@model List<Car>
+
+
+
+@*@model Car*@
+
+
+
+<div class="display-car-data">
+    <div class="car-data">
+        <div class="props">
+            <span class="text-prop">@Model[0].Max_range km</span><!--Abfrage ob Standart Range, oder wenn nicht andere Verson-->
+            <span class="prop">Range</span>
+        </div>
+        <div class="props">
+            <span class="text-prop">@Model[0].Max_speed km/h</span>
+            <span class="prop">Reichweite</span>
+        </div>
+        <div class="props">
+            <span class="text-prop">@Model[0].Acceleration</span>
+            <span class="prop">0-100 km/h</span>
+        </div>
+        <div class="props">
+            <span class="text-prop">@Model[0].Ps</span>
+            <span class="prop">PS</span>
+        </div>
+        <div class="props">
+            <span class="text-prop">@Model[0].Price.ToString().Split(",")[0] €</span>
+            <span class="prop">Price</span>
+        </div>
+        <div class="props">
+            <div class="btn-container">
+                <button class="btn" onclick="window.location.href = '/Car/CarOrder?model=@Model[0].Model.Split("|")[0].Trim()'"><p class="btn-content">ORDER NOW</p></button>
+            </div>
+                
+                
+
+
+        </div>
+    </div>
+</div>

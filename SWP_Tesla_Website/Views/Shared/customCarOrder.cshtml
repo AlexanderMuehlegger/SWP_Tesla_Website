@@ -1,0 +1,113 @@
+﻿@model List<Car>
+
+<div class="display-car-order" id="displayCarDataBeg">
+    <div class="display-car-look">
+        <!--evtl. Link zu Bild in Database eintragen, damit individualle zuteilbar-->
+        @if (Model[0].Model.Contains("Model X")) {
+            <img class="car-image" src="../multimedia/pictures/ModelX-Panel.jpg">
+        } else if (Model[0].Model.Contains("Model Y")) {
+            <img class="car-image" src="../multimedia/pictures/ModelY-Panel.png">
+        } else if (Model[0].Model.Contains("Model 3")) {
+            <img class="car-image" src="../multimedia/pictures/TeslaModel3-Panel.png">
+        } else if (Model[0].Model.Contains("Model S")) {
+            <img class="car-image" src="../multimedia/pictures/ModelS-Panel.jpg">
+        }
+    </div>
+    <div class="display-car-details">
+        <div class="details-card">
+            <div class="props">
+                <span class="title-model">@Model[0].Model.Split("|")[0]</span>
+                <span class="prop">Hello there</span>
+                @foreach (Car car in Model) {
+                    <button class="btn" onclick="getCarDataFromModel('@car.Model')">
+                        <span class="display-model-name">@car.Model.Split("|")[1]</span>
+                        <span class="display-model-price">@car.Price €</span>
+                    </button><!--TODO: Daten von Autos anzeigen-->
+                }
+                <div class="display-props-data">
+                    <div class="props-data">
+                        <span class="prop-text-data" id="Range"></span>
+                        <span class="prop-descr-data" id="RangeDescr">Range</span>
+                    </div>
+                    <div class="props-data">
+                        <span class="prop-text-data" id="MaxSpeed"></span>
+                        <span class="prop-descr-data" id="MaxSpeedDescr">Max Speed</span>
+                    </div>
+                    <div class="props-data">
+                        <span class="prop-text-data" id="Acceleration"></span>
+                        <span class="prop-descr-data" id="AccelDescr">0-100 km/h</span>
+                    </div>
+                </div>
+                <div class="props-2">
+                    <span class="text-prop">Order:</span>
+                    <span class="prop" id="OrderModel"></span>
+                </div>
+                <button class="btn" onclick="orderRequest()">
+                    <span class="display-model-name">ORDER</span>
+                    <span class="display-model-price">NOW</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    //TODO: Make Data appear on page load
+    
+    const spanRange = document.getElementById("Range");
+    const spanMaxSpeed = document.getElementById("MaxSpeed");
+    const spanAcceleration = document.getElementById("Acceleration");
+    const spanOrderModel = document.getElementById("OrderModel");
+    const divCarImage = document.getElementById("CarImage");
+    const divDisplayCar = document.getElementById("displayCarDataBeg");
+
+    const carVersions = ["Standart Range", "Plaid", "Performance", "Long Range"];
+    //$('#OrderModel').hide();
+
+<<<<<<< HEAD
+    var global_model = ""
+=======
+    @*divDisplayCar.addEventListener('load', (event) => {
+        var mod = @Model[0].Model;
+        getCarDataFromModel(mod);
+    })*@
+>>>>>>> 6fb7506f2ae5c4513b39cbba70c16b6ee8d88e76
+    
+    changeCarValue(getCarDataFromModel("@Model[0].Model"))
+
+    function changeCarValue(model) {
+        console.log(model)
+        global_model = model["_car"]["Model"]
+        //console.log(model)
+        var CarData = model
+        //console.log(CarData)
+
+
+        spanRange.innerText = CarData["_car"]["Max_range"] //Daten von jeweiligem model ausgeben
+        spanMaxSpeed.innerText = CarData["_car"]["Max_speed"]
+        spanAcceleration.innerText = CarData["_car"]["Acceleration"]
+        spanOrderModel.innerText = CarData["_car"]["Model"]
+        ////$('#OrderModel').show();//Hide span, them make it visible after clicking button
+        spanOrderModel.style.display = "block";
+    }
+
+    function getCarDataFromModel(model){
+        fetch("/carData/" + model, {
+            method: 'GET'
+        })
+            .then(response => response.text())
+            .then(data => JSON.parse(data))
+            .then(jObject => changeCarValue(jObject))
+    }
+
+    
+
+    function orderRequest() {
+        fetch("/order/ordernow?model=" + global_model, {
+            method: "GET"
+        })
+        .then(response => response.json())
+        .then(data => newNotification(data["msg"], data["status"], false))
+    }
+   
+</script>

@@ -1,0 +1,39 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - SWP_Tesla_Website</title>
+    <link rel="stylesheet" href="~/css/style.css" />
+    <link rel="stylesheet" href="~/css/scrollBar.css" />
+
+</head>
+<body class="flex">
+
+
+    <div class="primary-container flex">
+        <header class="primary-header flex">
+            <partial name="header_content" />
+        </header>
+        <content class="primary-content flex">
+            @RenderBody()
+        </content> 
+
+        <footer class="primary-footer none" is-in-login="false">
+            d
+        </footer>
+    </div>
+    <nav class="primary-sidebar flex" isVisible="false" is-in-login="false">
+        <partial name="sidebar" />
+    </nav>
+    <div class="notification-wrapper">
+        <div class="notification-container"></div>
+    </div>
+
+    <script src="~/js/notification.js"></script>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

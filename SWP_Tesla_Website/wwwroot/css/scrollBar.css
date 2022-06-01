@@ -1,0 +1,21 @@
+﻿:root {
+    --track-color: rgba(10,10,10,0.2);
+}
+
+::-webkit-scrollbar {
+    position: absolute;
+    width: 10px;
+    display: none;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--track-color);
+    border-radius: 100vh;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: rgba(10,10,10,0.3);
+    border-radius: 100vh;
+    box-sizing: border-box;
+    border: 2px solid var(--track-color); /*8AA1B1*/
+}

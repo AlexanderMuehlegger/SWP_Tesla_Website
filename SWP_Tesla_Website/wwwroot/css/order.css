@@ -1,0 +1,158 @@
+﻿@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;1,700&family=Roboto:wght@300&display=swap');
+
+
+.pay-order-container * {
+    font-family: 'DM Sans';
+}
+.pay-order-container {
+    width: 50vw;
+    height: 100vh;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    margin-inline: auto;
+}
+
+.pay-order-container * span,
+.info-button {
+    display: inline-block;
+}
+
+.order-form {
+    width: fit-content;
+    height: 15vh;
+    display: flex;
+    position: relative;
+    flex-direction: column;
+    justify-content: space-around;
+    align-content: center;
+    min-height: fit-content
+}
+
+.input-cont {
+    position: relative;
+    margin-bottom: 1rem
+}
+
+.saldo-display {
+    width: 17.5rem;
+    aspect-ratio: 1/.85;
+    background-color: #141926;
+    color: #FFFFFF;
+    font-weight: bold;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    border-radius: 2rem;
+    transform: scale(.9)
+}
+
+#span1 {
+    font-size: 19px;
+}
+
+.cost {
+    position: relative;
+    font-size: 35px;
+    font-weight: 700;
+    margin: 2rem;
+    letter-spacing: 1px;
+}
+
+.cost::before{
+    content: '€';
+    position: absolute;
+    top: -20%;
+    left: -15%;
+    color: #9BA0AF;
+    transform: scale(.55)
+}
+
+.info {
+    font-weight: 400;
+    font-size: 15px;
+    color: #9BA0AF
+}
+
+.info-button {
+    font-size: 17px;
+    color: #A7C0F6;
+    margin-top: 3rem;
+    text-decoration: none;
+}
+
+.pay-btn {
+    position: relative;
+    background-color: #4040F7;
+    border: none;
+    color: white;
+    min-width: 10rem;
+    min-height: 2.75rem;
+    border-radius: .75rem;
+}
+
+.pay-btn img {
+    position: absolute;
+    max-height: 1.5rem;
+    max-width: 1.5rem;
+    fill: white;
+    left: 10%;
+}
+
+.pay-input {
+    height: 40px;
+    width: 100%;
+    letter-spacing: 1px;
+    border: none;
+    outline: none;
+    border-bottom: 2px solid silver;
+    padding: 0;
+    font-size: 17px;
+}
+
+.order-form .input-cont input:focus ~ label,
+.order-form .input-cont input:valid ~ label {
+    transform: translateY(-25px);
+    font-size: 15px;
+    color: rgba(64, 64, 247, .7);
+}
+
+.order-form .input-cont label {
+    position: absolute;
+    bottom: 10px;
+    left: 0px;
+    color: grey;
+    pointer-events: none;
+    transition: transform 150ms ease-out;
+}
+
+.order-form .input-cont .underline {
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
+    height: 2px;
+    width: 100%;
+}
+
+.order-form .input-cont .underline::before {
+    content: '';
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background: red;
+    background: linear-gradient(to left, red 50%, #50C878 50%) right;
+    background-size: 200%;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 150ms ease-out,
+    background 150ms ease-out
+}
+
+.order-form .input-cont input:focus ~ .underline::before {
+    transform: scaleX(1)
+}
+
+.order-form .input-cont input:valid ~ .underline::before {
+    background-position: left;
+    transform: scale(1);
+}

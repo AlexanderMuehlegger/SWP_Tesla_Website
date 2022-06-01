@@ -1,0 +1,285 @@
+﻿@model List<List<object>>
+
+
+<link rel="stylesheet" href="~/css/adminpanel.css">
+
+@*<div class="role-module">
+        <div class="role-container">
+            <div class="change-option">
+                <input type="radio" name="type" id="admin_change">
+                <label for="admin_change">Admin</label>
+            </div>
+            <div class="change-option">
+                <input type="radio" name="type" id="mod_change">
+                <label for="mod_change">Mod</label>
+            </div>
+            <div class="change-option">
+                <input type="radio" name="type" id="user_change">
+                <label for="user_change">User</label>
+            </div>
+            <button id="close-role-module" type="button" class="exit-changer"></button>
+        </div>
+    </div>*@
+<div class="wrapper">
+    <form class="logout-form" asp-action="index" asp-controller="account" method="get">
+        <button class="logout-btn"></button>
+    </form>
+
+    <div class="controle-panel">
+        <div class="select-box">
+            <div class="selected">
+                No Filter
+            </div>
+            <div class="option-container"></div>
+        </div>
+        <div class="mode-switcher">
+            <button class="car-mode-switch">Autos</button>
+            <button class="user-mode-switch block">User</button>
+        </div>
+    </div>
+
+    <div class="user-container" style="display: none;">
+        @if(Model[1] != null){
+            <div class="user-table">
+                <div class="user-card">
+                    <table>
+                        <thead>
+                            <th>ID</th>
+                            <th>Username</th>
+                            <th>Email</th>
+                            <th>Access</th>
+                            <th>Action</th>
+                        </thead>
+                        <tbody>
+                            @foreach(User user in Model[1]){
+                                <tr class="table-row">
+                                    <td>@user.ID</td>
+                                    <td>@user.Username</td>
+                                    <td>@user.Email</td>
+                                    <td>@user.access.getAccessName()</td>
+                                    <td>
+                                        @if(@user.access == Access.BANNED) {
+                                            <form class="unban-form" action="/Account/UnbanUser/@user.ID">
+                                                <button class="ban-btn user-btn">Unban</button>
+                                            </form>
+                                        }
+                                        else {
+                                            <form class="ban-form" action="/Account/BanUser/@user.ID">
+                                                <button class="ban-btn user-btn">Ban</button>
+                                            </form>
+                                        }
+                                    </td>
+                                    @*<td>
+                                        <button class="role-changer-btn" type="button" value="@user.ID">Change Role</button>
+                                    </td>*@
+                                </tr>
+                                }
+                            </tbody>
+                    </table>
+                </div>
+                @if(Context.Session.GetString("ban-error") != null) {
+                        <span>@Context.Session.GetString("ban-error")</span>
+                    }
+            </div>
+        }
+    </div>
+
+    @if(Model[0] != null) {
+        <div class="car-container" style="display: none; ">
+            <div class="card-wrapper">
+                <div class="card-container">
+                @foreach (Car car in Model[0])
+                {
+                    @if (car.Model.Contains(""))
+                    {
+                        <partial name="Car-Card" model=car></partial>
+                    }
+                }
+                
+                    </div>
+                </div>
+        </div>
+    }else {
+        <span class="error-message">@Context.Session.GetString("car-error")</span>
+    }
+    <div id="site-state" style="display:none;">@Context.Session.GetString("adminpanel-state")</div>
+</div>
+<div class="car-data-changer" style="display:none">
+    <span id="model-container" style="display:none"></span>
+    <form asp-action="changeCarData" asp-controller="car" class="car-changer-form">
+        <div class="changer-innerwrapper">
+            <input value='' type="text" required>
+            <label for="">Reichweite: </label>
+            <div class="underline"></div>
+        </div>
+        <div class="changer-innerwrapper">
+            <input value='' type="text" required>
+            <label for="">Geschwindigkeit:</label>
+            <div class="underline"></div>
+        </div>
+        <div class="changer-innerwrapper">
+            <input value='' type="text" required>
+            <label for="">0-100 km/h</label>
+            <div class="underline"></div>
+        </div>
+        <div class="changer-innerwrapper">
+            <input value='' type="text" required>
+            <label for="">PS: </label>
+            <div class="underline"></div>
+        </div>
+        <div class="changer-innerwrapper">
+            <input value='' type="text" required>
+            <label for="">Price: </label>
+            <div class="underline"></div>
+        </div>
+        <div id="changer-btn-container" class="changer-innerwrapper">
+            <button class="changer-btn" onclick="hideChanger()" type="button">Cancel</button>
+            <button class="changer-btn" onclick="changeData()" type="button">Save</button>
+        </div>
+    </form>
+</div>
+
+<script type="text/javascript" src="~/js/AdminPanel.js"></script>
+<script>
+    const state_div = document.querySelector("#site-state")
+    const role_changers = document.querySelectorAll(".role-changer-btn")
+    const role_module = document.querySelector(".role-module")
+
+    var jObject_global = null
+    function getSession(){
+        
+        var state = state_div.innerText;
+        if(state == null || state == "")
+            state = "car"
+        
+        if(state == "car")
+            setState("car")
+        else if(state == "user")
+            setState("user")
+        
+        state_div.textContent = state
+        console.log("loaded" + state)
+    }
+
+    getSession()
+
+    document.querySelector(".car-mode-switch")?.addEventListener('click', () => {
+        if(state_div.innerText == "user")
+            changeState()        
+    })
+
+    document.querySelector(".user-mode-switch")?.addEventListener('click', () => {
+        if(state_div.innerText == "car")
+            changeState()
+    })
+
+    document.querySelectorAll(".role-changer-btn")?.forEach(element => {
+        element.addEventListener('click', () => {
+        if(role_module.style.display == "none")
+            role_module.style.display = ""
+        else
+            role_module.style.display = "none"
+        })
+    })
+
+    document.querySelector("#close-role-module")?.addEventListener('click', () => {
+        if(role_module.style.display == "none")
+            role_module.style.display = ""
+        else
+            role_module.style.display = "none"
+    })
+    role_changers.forEach(element => {
+        element.addEventListener('click', () => {
+
+        })
+    })
+
+    document.querySelectorAll(".card").forEach(element => {
+        element.addEventListener('click', (event) =>  {
+            const modelDecl = event.currentTarget.querySelectorAll(".model")
+            let model = modelDecl[0].innerText + " | " + modelDecl[1].innerText
+            fetch("/carData/" + model, {
+                method: 'GET'
+            })
+            .then(response => response.text())
+            .then(data => JSON.parse(data))
+            .then(jObject => showChanger(jObject))
+        })
+    })
+
+    function changeState(){
+        fetch("/account/changeadminpanelstate")
+            .then(response => response.text())
+            .then(data => state_div.textContent = data)
+    }
+
+    function showChanger(jObj){
+        console.log(jObj)
+        jObject_global = jObj
+        const changerFormWrapper = document.querySelector(".car-data-changer")
+        const changerForm = changerFormWrapper.querySelector(".car-changer-form")
+        const labels = changerForm.querySelectorAll("label")
+        const inputs = changerForm.querySelectorAll("input")
+        const model_container = changerFormWrapper.querySelector("#model-container")
+
+        model_container.innerHTML = jObj["_car"]["Model"]
+
+        inputs.forEach(element => {
+            element.value = ''
+        })
+
+        labels[0].innerText = "Reichweite: (" + jObj["_car"]["Max_range"] + ")"
+        labels[1].innerText = "Geschwindigkeit (" + jObj["_car"]["Max_speed"] + ")"
+        labels[2].innerText = "0-100 km/h (" + jObj["_car"]["Acceleration"] + ")"
+        labels[3].innerText = "PS: (" + jObj["_car"]["Ps"] + ")"
+        labels[4].innerText = "Price: (" + jObj["_car"]["Price"].toLocaleString(undefined, {minimunFractiondigits: 2}) + ")"
+
+        
+        changerFormWrapper.style.display = ""
+
+    }
+
+    function hideChanger(){
+        setTimeout(() => {
+            const changerFormWrapper = document.querySelector(".car-data-changer")
+            changerFormWrapper.style.display = "none"
+        }, 250)
+    }
+    
+    function changeData(event){
+
+        const inputs = document.querySelectorAll(".car-changer-form .changer-innerwrapper input")
+        const model = document.getElementById("model-container")
+
+        var data = {
+            "_car" : {
+                "Acceleration": inputs[2].value || jObject_global["_car"]["Acceleration"],
+                "Max_range": inputs[0].value || jObject_global["_car"]["Max_range"],
+                "Max_speed": inputs[1].value || jObject_global["_car"]["Max_speed"],
+                "Model": model.innerHTML,
+                "Price": inputs[4].value || jObject_global["_car"]["Price"],
+                "Ps": inputs[3].value || jObject_global["_car"]["Ps"]
+            }
+        }
+
+        fetch("/car/changecardata?data=" + JSON.stringify(data), {
+            method: "GET"
+        }).then(response => response.json())
+        .then(data => createChangeNoti(data))
+    }
+
+    function createChangeNoti(data){
+        if(data == "" || data == null){
+            newNotification("Connection error!", "Error")
+            return;
+        }
+        hideChanger()
+        newNotification(data["msg"], data["status"], true)
+    }
+
+    function changeNotiState(){
+        const notification = document.querySelector(".notification")
+        notification.classList.toggle("active")
+    }
+
+</script>
