@@ -8,6 +8,8 @@ using SWP_Tesla_Website.Models;
 using Microsoft.AspNetCore.Http;
 using System.Dynamic;
 using SWP_Tesla_Website.Models.DB;
+using Google.Authenticator;
+using Microsoft.AspNetCore.Authorization;
 
 namespace SWP_Tesla_Website.Controllers {
     public class AccountController : Controller {
@@ -15,7 +17,7 @@ namespace SWP_Tesla_Website.Controllers {
         private IRepositoryUser _rep = new RepositoryUserDB();
         private IRepositoryCar _rep_car = new RepositoryCarDB();
         private IRepositoryOrder _rep_order = new RepositoryOrderDB();
-
+        private const string key = "dfg756!@@)(*"; //we can use any 10-12 chars
 
         [HttpGet]
         public IActionResult Index() {
@@ -39,6 +41,8 @@ namespace SWP_Tesla_Website.Controllers {
 
             return View(obj);
         }
+
+        
 
         [HttpGet]
         public IActionResult Login() {

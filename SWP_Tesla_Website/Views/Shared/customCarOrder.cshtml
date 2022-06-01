@@ -1,6 +1,6 @@
 ﻿@model List<Car>
 
-<div class="display-car-order">
+<div class="display-car-order" id="displayCarDataBeg">
     <div class="display-car-look">
         <!--evtl. Link zu Bild in Database eintragen, damit individualle zuteilbar-->
         @if (Model[0].Model.Contains("Model X")) {
@@ -57,10 +57,15 @@
     const spanAcceleration = document.getElementById("Acceleration");
     const spanOrderModel = document.getElementById("OrderModel");
     const divCarImage = document.getElementById("CarImage");
+    const divDisplayCar = document.getElementById("displayCarDataBeg");
 
     const carVersions = ["Standart Range", "Plaid", "Performance", "Long Range"];
     //$('#OrderModel').hide();
 
+    @*divDisplayCar.addEventListener('load', (event) => {
+        var mod = @Model[0].Model;
+        getCarDataFromModel(mod);
+    })*@
     
     function changeCarValue(model) {
         //console.log(model)
